@@ -1,0 +1,84 @@
+<form [formGroup]="notificationForm" class="row m-0 p-0">
+  <mat-form-field [style.width]="'100%'" appearance="outline">
+    <mat-label>{{ "NOTE_TITLE" | translate }}</mat-label>
+    <input matInput autocomplete="nope" formControlName="note_title" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" [style.width]="'100%'">
+    <mat-label>{{ "RECEIVERS" | translate }}</mat-label>
+    <mat-select
+      [multiple]="true"
+      formControlName="receiver"
+      (ngModelChange)="onSelectReceiver($event)"
+    >
+      <mat-option *ngFor="let rec of userReceiver" [value]="rec.value">{{
+        rec.label | translate
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="row m-0 p-0">
+    <div class="col-12" *ngIf="showCustomUsers">
+      <mat-form-field appearance="outline" [style.width]="'100%'">
+        <mat-label>{{ "SELECT_CUSTOM_USERS" | translate }}</mat-label>
+        <mat-select [multiple]="true" formControlName="receiver">
+          <input
+            class="custom-users"
+            placeholder="Search User"
+            (keyup)="onUserKey($event.target)"
+          />
+
+          <mat-option *ngFor="let rec of customUsers" [value]="rec.id">{{
+            rec.name | translate
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12" *ngIf="showCustomClinics">
+        <mat-form-field appearance="outline" [style.width]="'100%'">
+          <mat-label>{{ "SELECT_CUSTOM_CLINICS" | translate }}</mat-label>
+          <mat-select [multiple]="true" formControlName="receiver">
+            <input
+              class="custom-users"
+              placeholder="Search Clinics"
+              (keyup)="onClinicKey($event.target)"
+            />
+  
+            <mat-option *ngFor="let rec of customUsers" [value]="rec.id">{{
+              rec.name | translate
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  </div>
+
+  <mat-form-field [style.width]="'100%'" appearance="outline">
+    <mat-label>{{ "NOTE_DESCRIPTION" | translate }}</mat-label>
+    <textarea
+      matInput
+      formControlName="note_desc"
+      rows="6"
+      cols="60"
+    ></textarea>
+  </mat-form-field>
+</form>
+
+<div class="p-dialog-footer p-0 px-1">
+  <button
+    pButton
+    type="button"
+    [disabled]="!notificationForm.valid"
+    class="p-success p-button-sm"
+    (click)="sendNotification(notificationForm.value)"
+    [label]="translate.instant('SEND')"
+  ></button>
+
+  <button
+    pButton
+    type="button"
+    class="p-secondary p-button-sm"
+    (click)="closeDialog()"
+    [label]="translate.instant('CANCEL')"
+  ></button>
+</div>

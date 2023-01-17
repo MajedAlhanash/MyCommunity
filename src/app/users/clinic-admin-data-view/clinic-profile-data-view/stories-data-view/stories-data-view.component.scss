@@ -1,0 +1,67 @@
+/**/
+:host ::ng-deep .p-dataview .p-dataview-content > .p-grid {
+  display: grid;
+  // grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  grid-template-rows: 1fr;
+}
+
+:host ::ng-deep .p-dataview-content {
+  background: none !important;
+}
+
+:host ::ng-deep .p-dataview .p-paginator-bottom {
+  margin-top: 10px;
+}
+
+.story-card {
+    cursor: pointer;
+    width: 95%;
+    margin: 0.5em;
+    height: 100%;
+    border: 3px solid steelblue;
+    box-shadow: 0 2px 3px 0px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    position: relative;
+}
+
+
+.story-img{
+    width: 100%;
+    height: 100%;
+    min-height: 48vh;
+    min-height: 48vh;
+}
+
+.dotBtn{
+    position: absolute;
+    right: -8px;
+    top:2px
+}
+
+.dot-story{
+    background: white;
+}
+
+.container{
+    position: absolute;
+    bottom: 0px;
+    border-radius: 8px;
+    opacity: 0.9;
+    background-image: linear-gradient(to top, #ffffff, #ecedee, #d8dbdc, #c6cac8, #b7b8b3);
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+h1{
+  color: steelblue;
+  font-weight: bold;
+}

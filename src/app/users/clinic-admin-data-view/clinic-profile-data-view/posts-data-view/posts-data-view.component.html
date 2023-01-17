@@ -1,0 +1,116 @@
+<div class="mt-2">
+    <h1>{{'POSTS'| translate}}</h1>
+
+  <form action="post">
+    <div class="row">
+      <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
+        <mat-form-field
+          [style.backGround]="'white'"
+          [style.width]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>{{ "SEARCH" | translate }}</mat-label>
+          <input matInput />
+          <mat-icon
+            [style.color]="'#5449bf'"
+            [style.cursor]="'pointer'"
+            matPrefix
+            >search</mat-icon
+          >
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
+        style="padding-inline-start: 0; padding-right: 10px"
+      >
+        <button (click)="openPostModal('Add')" class="add-btn mb-3">
+          <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="">
+    <p-dataView
+      #dv
+      [value]="postsList"
+      [paginator]="true"
+      layout="grid"
+      filterBy="name"
+      [rows]="6"
+      class="p-0 m-0"
+    >
+      <ng-template let-post pTemplate="gridItem">
+        <div class="">
+          <div class="post-card">
+            <div class="row p-2">
+              <div class="col-7 d-flex" style="padding-right: 0px;">
+                <img
+                  class="profile-img add-shadow"
+                  [src]="post.clinicImagePath ? post?.clinicImagePath : defultImg"
+                />
+                <span class="d-flex flex-column px-2">
+                  <p class="mb-0" style="font-weight: bold">
+                    {{ post?.clinicName }}
+                  </p>
+                  <p class="mb-0" style="font-size: 12px" *ngIf="false">
+                    {{ post?.location }}
+                  </p>
+                </span>
+              </div>
+              <div
+                class="col-5 align-items-end flex-column d-flex dotBtn"
+                style="padding-inline: 0p"
+              >
+                <button
+                  style="float: inline-start"
+                  [matMenuTriggerFor]="menu"
+                  (click)="setSelectedPost(post)"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+                <small style="font-size: 12px" class="">{{post.creationTime | date: 'short'}}</small>
+              </div>
+            </div>
+            <div class="row" (click)="showPostDetails(post)">
+              <div class="col-12">
+                <div class="p-2">
+                  <img
+                    class="card-post-img add-shadow"
+                    [src]="post.imagePath ? post?.imagePath : defultImg"
+                  />
+                </div>
+              </div>
+              <div class="col-12 d-flex justify-content-end">
+                <span class="category-card-name px-3">
+                  <button
+                    pButton
+                    type="button"
+                    class="p-success p-button-sm"
+                    [label]="translate.instant('VIEW_POST')"
+                  ></button
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="openPostModal('Edit')">
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deletePost()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>

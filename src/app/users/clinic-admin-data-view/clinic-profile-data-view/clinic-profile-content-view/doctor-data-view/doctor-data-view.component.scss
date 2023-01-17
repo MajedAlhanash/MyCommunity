@@ -1,0 +1,37 @@
+.doctor-card {
+  cursor: pointer;
+  aspect-ratio: 5/1;
+  width: 80%;
+  padding: 5px 0px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 3px 0px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  background-color: white;
+}
+
+.card-doctor-img {
+  width: 4em;
+  border-radius: 50%;
+}
+
+.add-dtr-btn {
+  height: 37px;
+  width: 37px;
+  background-color: steelblue;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.header {
+  position: fixed;
+  width: 92%;
+  background: white;
+  z-index: 1000;
+}

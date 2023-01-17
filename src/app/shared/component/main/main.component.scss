@@ -1,0 +1,27 @@
+.main-grid{
+    display: grid; 
+    grid-auto-flow: column; 
+    // grid-auto-columns: 2fr 1fr 1fr; 
+    // grid-auto-rows: 1fr 1fr; 
+    grid-template-columns: 1fr 5fr; 
+    grid-template-rows: 1fr; 
+    gap: 10px 0px; 
+}
+
+nav {
+    z-index: 10;
+    height: 4rem;
+    background-color: steelblue;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+}
+
+.header-profile-img{
+    aspect-ratio: 1/1;
+    width: 5rem;
+    border-radius: 50%;
+    margin-inline-end: 10px;
+}

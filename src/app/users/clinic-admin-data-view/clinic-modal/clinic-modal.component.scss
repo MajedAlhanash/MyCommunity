@@ -1,0 +1,66 @@
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+::ng-deep .ui-button:focus,
+::ng-deep .ui-button:enabled:focus {
+  outline: 0 none !important;
+  outline-offset: 0px !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  color: steelblue;
+}
+
+.add-btn {
+  width: 95%;
+}
+
+.modal-profile-img {
+  aspect-ratio: 1 / 1;
+  width: 25%;
+  border-radius: 50%;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+//-----Dialog-----------------------------
+:host ::ng-deep .p-dialog .p-dialog-footer {
+  padding: 0px !important;
+}
+
+:host ::ng-deep .p-button.p-button-sm {
+  background: steelblue !important;
+  border-color: steelblue !important;
+}
+
+:host ::ng-deep .p-dialog {
+  border: 5px solid steelblue !important;
+}
+
+.ngx-drop {
+  display: flex;
+  align-items: center;
+  height: 125px;
+  background: #fff;
+  cursor: pointer;
+  color: #717386;
+  border: 2px dashed #717386;
+  border-radius: 5px;
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 23%;
+  border-radius: 100px;
+}
+
+:host ::ng-deep img {
+  width: 155% !important;
+}

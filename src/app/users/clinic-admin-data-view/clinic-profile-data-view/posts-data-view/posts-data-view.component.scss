@@ -1,0 +1,58 @@
+/**/
+:host ::ng-deep .p-dataview .p-dataview-content > .p-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 8px 0px;
+}
+
+:host ::ng-deep .p-dataview-content {
+  background: none !important;
+}
+
+:host ::ng-deep .p-dataview .p-paginator-bottom {
+  margin-top: 5px;
+}
+
+.post-card {
+  cursor: pointer;
+  width: 85%;
+  margin: 0.5em;
+  height: 100%;
+  border: 3px solid white;
+  box-shadow: 0 2px 3px 0px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  position: relative;
+  max-height: 227px;
+}
+
+h1{
+  color: steelblue;
+  font-weight: bold;
+}
+.card-post-img {
+  aspect-ratio: 3/1;
+  width: 100%;
+  margin-inline-end: 10px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.p-success {
+  background: steelblue !important;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  height: 1.357rem;
+}

@@ -1,0 +1,40 @@
+.loading-spinner,
+.loading-spinner-global {
+  z-index: 9000;
+  position: absolute;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  align-items: center;
+  background: rgba(64, 64, 64, 0.5);
+  .spinner-div {
+    width: 150px;
+    height: 150px;
+    background-color: steelblue;
+    color: white;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
+      0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
+    border-radius: 25px;
+    .mat-progress-spinner {
+      margin-bottom: 0.5em;
+      svg {
+        circle {
+          stroke: steelblue;
+        }
+      }
+    }
+  }
+}
+.loading-spinner-global {
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}

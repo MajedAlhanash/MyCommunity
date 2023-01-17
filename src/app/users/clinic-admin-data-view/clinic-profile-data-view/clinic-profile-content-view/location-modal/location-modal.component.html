@@ -1,0 +1,38 @@
+<p-header>
+  <div class="d-flex justify-content-between align-items-center py-3 header">
+    <div>
+      <i
+        class="pi pi-arrow-circle-left"
+        style="cursor: pointer"
+        (click)="closeDialog()"
+      ></i>
+    </div>
+    <span class="text-center w-100">
+      <h2 class="mb-0" style="font-weight: bold; color: steelblue;">
+        {{
+          dialogStatus === "Add"
+            ? translate.instant("ADD_LOCATION")
+            : translate.instant("EDIT_LOCATION")
+        }}
+      </h2>
+    </span>
+  </div>
+</p-header>
+
+<form [formGroup]="locationForm" class="row m-0 p-0">
+  <mat-form-field [style.width]="'100%'" appearance="outline">
+    <mat-label>{{ "LOCATION_NAME" | translate }}</mat-label>
+    <input matInput autocomplete="nope" formControlName="name" />
+  </mat-form-field>
+</form>
+
+<div class="p-dialog-footer p-0 px-1">
+  <button
+    pButton
+    type="button"
+    [disabled]="!locationForm.valid"
+    class="p-success p-button-sm"
+    (click)="saveLocation(locationForm.value)"
+    [label]="translate.instant('SAVE')"
+  ></button>
+</div>

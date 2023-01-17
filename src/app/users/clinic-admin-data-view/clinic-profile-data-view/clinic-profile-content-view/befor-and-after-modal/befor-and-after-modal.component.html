@@ -1,0 +1,84 @@
+<p-header>
+    <div class="d-flex justify-content-between align-items-center py-3 header">
+      <div>
+        <i
+          class="pi pi-arrow-circle-left"
+          style="cursor: pointer"
+          (click)="closeDialog()"
+        ></i>
+      </div>
+      <span class="text-center w-100">
+        <h2 class="mb-0" style="font-weight: bold; color: steelblue">
+          {{
+           'BEFOREANDAFTER' | translate
+          }}
+        </h2>
+      </span>
+    </div>
+  </p-header>
+
+<div *ngIf="showDetails">
+    <div class="card">
+        <div class="card-img">
+            <img [src]="selectedData?.imagePath">
+        </div>
+        <div class="card-text mt-3">
+            <h4 class="p-1">{{selectedData?.text}}</h4>
+        </div>
+    </div>
+</div>
+
+<form [formGroup]="beforAndAfterForm" *ngIf="!showDetails">
+    <div class="row p-0 m-0 d-flex justify-content-center">
+        <ngx-dropzone
+          (change)="onSelect($event)"
+          [multiple]="false"
+          [disabled]="showDetails"
+          class="ngx-drop"
+        >
+          <ngx-dropzone-label
+            ><i
+              class="fa fa-regular fa-image"
+              style="font-size: 30px; color: steelblue"
+            ></i
+          ></ngx-dropzone-label>
+          <ngx-dropzone-image-preview
+            ngProjectAs="ngx-dropzone-preview"
+            class="preview-img"
+            *ngFor="let f of files"
+            [file]="f"
+            [removable]="true"
+            (removed)="onRemove(f)"
+            style="width: 100%;border-radius: 100px;margin: 0px;"
+          >
+          </ngx-dropzone-image-preview>
+        </ngx-dropzone>
+      </div>
+  
+    <mat-form-field [style.width]="'100%'" appearance="outline" class="mt-2">
+        <mat-label>{{ "TEXT" | translate }}</mat-label>
+        <textarea matInput formControlName="text"></textarea>
+    </mat-form-field>
+
+</form>
+
+
+<div class="p-dialog-footer p-0 px-1" *ngIf="!showDetails">
+    <button
+      pButton
+      type="button"
+      [disabled]="!beforAndAfterForm.valid"
+      class="p-success p-button-sm"
+      (click)="saveBeforAndAter(beforAndAfterForm.value)"
+      [label]="translate.instant('SAVE')"
+    ></button>
+  
+    <button
+      pButton
+      type="button"
+      class="p-secondary p-button-sm"
+      (click)="closeDialog()"
+      [label]="translate.instant('CANCEL')"
+    ></button>
+  </div>
+  

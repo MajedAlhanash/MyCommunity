@@ -1,0 +1,22 @@
+<p-sidebar
+  styleClass="p-sidebar-sm"
+  [(visible)]="visible"
+  [modal]="false"
+  [dismissible]="false"
+  [showCloseIcon]="false"
+  [closeOnEscape]="false"
+  [style]="{
+    padding: '0rem',
+    'box-shadow': '1px 0px 5px -1px rgba(0,0,0,0.40)'
+  }"
+  [autoZIndex]="false"
+  [transitionOptions]="'1ms cubic-bezier(0, 0, 0.2, 1)'"
+>
+  <div class="panel-container scroll">
+    <p-panelMenu
+      [model]="sidebarItems"
+      [style]="{ width: '100%', 'font-size': '15px' }"
+      [multiple]="false"
+    ></p-panelMenu>
+  </div>
+</p-sidebar>

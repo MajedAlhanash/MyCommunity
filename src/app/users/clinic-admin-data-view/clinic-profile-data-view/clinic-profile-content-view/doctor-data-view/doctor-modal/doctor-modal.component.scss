@@ -1,0 +1,57 @@
+.ngx-drop {
+  display: flex;
+  align-items: center;
+  height: 100px;
+  background: #fff;
+  cursor: pointer;
+  color: #717386;
+  border: 2px dashed #717386;
+  border-radius: 5px;
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 23%;
+  border-radius: 100px;
+  margin: 0px !important;
+}
+
+.ngx-drop-icon {
+  display: flex;
+  align-items: center;
+  height: 55px;
+  background: #fff;
+  cursor: pointer;
+  color: #717386;
+  border: 2px dashed #717386;
+  /* border-radius: 5px; */
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 100%;
+  margin: 0px;
+  margin-top: 6px;
+}
+
+:host ::ng-deep img {
+  width: 190% !important;
+}
+
+:host ::ng-deep .date.mat-form-field-appearance-outline .mat-form-field-infix {
+  display: flex;
+  padding: 0px;
+}
+
+
+:host ::ng-deep ngx-dropzone-remove-badge {
+  top: 33px !important;
+  right: -10px;
+}
+
+:host ::ng-deep ngx-dropzone.ngx-drop-icon > ngx-dropzone-image-preview > img {
+  height: 60px !important;
+}
+
+:host ::ng-deep ngx-dropzone.ngx-drop-icon > ngx-dropzone-image-preview > ngx-dropzone-remove-badge {
+  top: 45px !important;
+  right: -10px;
+}

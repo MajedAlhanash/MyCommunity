@@ -1,0 +1,102 @@
+<div class="page-body">
+  <div class="row steel m-b-10" style="border-bottom: 2px solid steelblue">
+    <div class="col-12" style="padding-inline-start: 8px; padding-bottom: 0">
+      <h2>
+        <strong>{{ "CATEGORY_NAME" | translate }} ({{category.length}})</strong>
+      </h2>
+    </div>
+  </div>
+
+  <form action="post">
+    <div class="row">
+      <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
+        <mat-form-field
+          [style.backGround]="'white'"
+          [style.width]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>{{ "SEARCH" | translate }}</mat-label>
+          <input matInput />
+          <mat-icon
+            [style.color]="'#5449bf'"
+            [style.cursor]="'pointer'"
+            (click)="test()"
+            matPrefix
+            >search</mat-icon
+          >
+        </mat-form-field>
+      </div>
+
+      <div
+        class="col-md-1 col-sm-12 d-flex align-items-center  justify-content-center "
+        style="padding-inline-start: 0; padding-right: 10px"
+      >
+        <button (click)="openCategoryModal('Add')" class="add-btn">
+          <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="">
+    <p-dataView
+      #dv
+      [value]="category"
+      [paginator]="true"
+      layout="grid"
+      filterBy="name"
+      [rows]="8"
+      class="p-0 m-0"
+    >
+      <ng-template let-category pTemplate="gridItem">
+        <div class="">
+          <div class="my-card">
+            <div class="row">
+              <div class="d-flex justify-content-end">
+                <div class="dotBtn" style="padding-inline: 0p">
+                  <button
+                    style="float: inline-start"
+                    (click)="setSelectedCategory(category)"
+                    [matMenuTriggerFor]="menu"
+                    #dostButton
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-ellipsis-h"
+                    class="p-button-rounded p-button-text p-button-plain"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="p-3">
+                  <img
+                    class="card-category-img add-shadow"
+                    [src]="category.imageUrl ? category?.imageUrl : defultImg"
+                  />
+                </div>
+              </div>
+              <div class="col-12">
+                <span class="category-card-name px-3"
+                  >{{ category.name }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button (click)="openCategoryModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteCategory()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>

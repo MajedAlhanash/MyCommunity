@@ -1,0 +1,71 @@
+<div class="page-body">
+  <div class="row steel m-b-10" style="border-bottom: 2px solid steelblue">
+    <div class="col-12" style="padding-inline-start: 8px; padding-bottom: 0">
+      <h2>
+        <strong>{{ "NOTIFICATIONS" | translate }} ({{ notifications.length }})</strong>
+      </h2>
+    </div>
+  </div>
+
+  <div class="">
+    <p-table
+      [value]="notifications"
+      styleClass="p-datatable-gridlines"
+      [responsiveLayout]="'scroll'"
+      [paginator]="true"
+      [rows]="30"
+      [totalRecords]="notifications.length"
+      [rowHover]="true"
+      [scrollable]="true"
+      scrollHeight="350px"
+    >
+      <ng-template pTemplate="caption">
+        <form action="post">
+          <div class="row">
+            <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
+              <mat-form-field
+                [style.backGround]="'white'"
+                [style.width]="'100%'"
+                appearance="outline"
+              >
+                <mat-label>{{ "SEARCH" | translate }}</mat-label>
+                <input matInput />
+                <mat-icon
+                  [style.color]="'#5449bf'"
+                  [style.cursor]="'pointer'"
+                  matPrefix
+                  >search</mat-icon
+                >
+              </mat-form-field>
+            </div>
+
+            <div
+              class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
+              style="padding-inline-start: 0; padding-right: 10px"
+            >
+              <button (click)="openNotificationModal()" class="add-btn">
+                <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{ "NAME" | translate }}</th>
+          <th>{{ "SENDING_DATE" | translate }}</th>
+          <th>{{ "NOTE_TITLE" | translate }}</th>
+          <th>{{ "NOTE_DESCRIPTION" | translate }}</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-note>
+        <tr>
+          <td>{{ note.name }}</td>
+          <td>{{ note.sending_date }}</td>
+          <td>{{ note.message }}</td>
+          <td>{{ note.content }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

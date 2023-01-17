@@ -1,0 +1,33 @@
+.clinic-body{
+  padding: 100px 20px 0px 50px;
+}
+.clinic-profile {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  gap: 20px;
+}
+
+.clinic-sidebar {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr;
+  gap: 10px 14px;
+}
+
+:host ::ng-deep .active {
+      color: steelblue;
+    font-weight: 600;
+}
+
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-panel .p-panelmenu-header > a{
+  border: none;
+  height: 5rem;
+  width: 100%;
+  background-color: white !important;
+}
+
+:host ::ng-deep .p-panelmenu .p-panelmenu-panel .p-panelmenu-header > a:focus{
+  color: steelblue !important;
+  font-weight: 600;
+}

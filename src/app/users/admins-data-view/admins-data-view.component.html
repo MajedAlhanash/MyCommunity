@@ -1,0 +1,176 @@
+<div class="page-body">
+  <div class="row steel m-b-10" style="border-bottom: 2px solid steelblue">
+    <div class="col-12" style="padding-inline-start: 8px; padding-bottom: 0">
+      <h2>
+        <strong>{{ "SUPER_ADMINS" | translate }} ({{ admins.length }})</strong>
+      </h2>
+    </div>
+  </div>
+
+  <div class="">
+    <p-table
+      [value]="admins"
+      styleClass="p-datatable-gridlines"
+      [responsiveLayout]="'scroll'"
+      [paginator]="true"
+      [rows]="30"
+      [rowHover]="true"
+      [scrollable]="true"
+      scrollHeight="370px"
+    >
+    <ng-template pTemplate="caption">
+      <form action="post">
+        <div class="row">
+          <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
+            <mat-form-field
+              [style.backGround]="'white'"
+              [style.width]="'100%'"
+              appearance="outline"
+            >
+              <mat-label>{{ "SEARCH" | translate }}</mat-label>
+              <input matInput />
+              <mat-icon
+                [style.color]="'#5449bf'"
+                [style.cursor]="'pointer'"
+                (click)="test()"
+                matPrefix
+                >search</mat-icon
+              >
+            </mat-form-field>
+          </div>
+    
+          <div
+            class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
+            style="padding-inline-start: 0; padding-right: 10px"
+          >
+            <button (click)="openAdminModal('Add')" class="add-btn">
+              <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+            </button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>{{'NAME'| translate}}</th>
+          <th>{{'EMAIL' | translate }}</th>
+          <th>{{'ROLE' | translate }}</th>
+          <th>{{'CREATION_DATE' | translate}}</th>
+          <th>{{'STATUS' | translate }}</th>
+          <th></th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-admin>
+        <tr>
+          <td>{{ admin.name }}</td>
+          <td>{{ admin.email }}</td>
+          <td>{{ admin.brand }}</td>
+          <td>{{ admin.color }}</td>
+          <td>{{ admin.color }}</td>
+          <td>
+            <div class="d-flex justify-content-around ">
+              <i class="pi pi-pencil text-success" pTooltip="Edit" [tooltipPosition]="'top'" (click)="openAdminModal('Edit')"></i>
+              <i class="pi pi-trash text-danger " pTooltip="Delete" [tooltipPosition]="'top'" (click)="deleteAdmin()"></i>
+              <i class="pi pi-lock" pTooltip="Reset Password" [tooltipPosition]="'top'"  (click)="openResetPasswordModal()"></i>
+
+            </div>
+          </td>
+
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- <p-dataView
+      #dv
+      [value]="admins"
+      [paginator]="true"
+      layout="grid"
+      filterBy="name"
+      [rows]="10"
+      class="p-0 m-0"
+    >
+      <ng-template let-admin pTemplate="gridItem">
+        <div class="">
+          <div class="my-card">
+            <div class="row">
+              <div class="col-10">
+                <div class="p-3">
+                  <img
+                    class="card-profile-img add-shadow"
+                    [src]="admin.imageUrl ? admin?.imageUrl : defultImg"
+                  />
+                </div>
+              </div>
+              <div class="col-1 dotBtn" style="padding-inline: 0p">
+                <button
+                  style="float: inline-start"
+                  (click)="setSelectedAdmin(admin)"
+                  [matMenuTriggerFor]="menu"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-12">
+                <span class="user-card-name px-3"
+                  >{{ admin.name }}
+                  <i
+                    [pTooltip]="
+                    admin?.active
+                        ? translate.instant('ACTIVE')
+                        : translate.instant('DEACTIVE')
+                    "
+                    tooltipPosition="top"
+                    [class]="
+                    admin?.active
+                        ? 'pi pi-check-circle text-success'
+                        : 'pi pi-times-circle text-danger'
+                    "
+                  ></i>
+                </span>
+              </div>
+              <div class="col-12 d-flex" style="padding-inline-start: 30px">
+                <div class="col-1">
+                  <i class="fa fa-light fa-envelope"></i>
+                </div>
+                <div class="col-11">
+                  <span class="wrap-words">{{ admin.email }}</span>
+                </div>
+              </div>
+              <div class="col-12 d-flex" style="padding-inline-start: 30px" *ngIf="admin.role">
+                <div class="col-1">
+                  <i class="pi pi-cog"></i>
+                </div>
+                <div class="col-11">
+                  <span class="wrap-words">{{ admin.role }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView> -->
+  </div>
+</div>
+
+<!-- <mat-menu #menu="matMenu">
+  <button (click)="openAdminModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button mat-menu-item (click)="openResetPasswordModal()">
+    <mat-icon>settings_backup_restore</mat-icon>
+    <span>{{ "RESET_PASSWORD" | translate }}</span>
+  </button>
+  <button (click)="deleteAdmin()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu> -->

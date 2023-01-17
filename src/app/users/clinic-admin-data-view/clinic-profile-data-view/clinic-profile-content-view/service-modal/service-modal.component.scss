@@ -1,0 +1,19 @@
+.ngx-drop {
+  display: flex;
+  align-items: center;
+  height: 125px;
+  background: #fff;
+  cursor: pointer;
+  color: #717386;
+  border: 2px dashed #717386;
+  border-radius: 5px;
+  font-size: 16px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  width: 23%;
+  border-radius: 100px;
+}
+
+:host ::ng-deep img {
+  width: 155% !important;
+}

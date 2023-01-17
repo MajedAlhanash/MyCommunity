@@ -1,0 +1,285 @@
+.content {
+  height: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 2fr 1fr 1fr;
+  grid-auto-rows: 1fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px 0px;
+}
+.img-section {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: 300px;
+}
+.clinic-profile-img {
+  aspect-ratio: 1/1;
+  margin-top: 8px;
+  border-bottom-right-radius: 70px;
+  border-bottom-left-radius: 10px;
+  height: 300px;
+}
+
+.content-options {
+  display: grid;
+  // grid-auto-columns: 1fr;
+  grid-template-columns: 1fr;
+  // grid-template-rows: 1fr 1fr;
+  // gap: 15px 0px;
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav {
+  border-radius: 5px;
+  box-shadow: 0px 0px 7px 1px rgba(23, 22, 22, 0.2);
+}
+
+:host ::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  padding: 0.5em 1rem;
+  border: none;
+}
+
+:host ::ng-deep ul.p-tabview-nav li.p-highlight > a > span.p-tabview-title {
+  background: steelblue;
+  color: white;
+  padding: 1em 2em;
+  border-radius: 5px;
+}
+
+:host ::ng-deep ul.p-tabview-nav li > a > span.p-tabview-title {
+  padding: 1em 2em;
+  border-radius: 5px;
+}
+
+:host
+  ::ng-deep
+  .p-tabview
+  .p-tabview-nav
+  li
+  .p-tabview-nav-link:not(.p-disabled):focus {
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .p-tabview-nav-container {
+  margin: 8px 0px !important;
+  box-shadow: 0px 0px 7px 1px rgba(23, 22, 22, 0.2);
+}
+
+:host ::ng-deep .p-tabview .p-tabview-panels {
+  box-shadow: none;
+  background: none;
+  padding: 0.5em 0rem;
+}
+
+.description-text {
+  line-height: 20px;
+  word-spacing: 4px;
+  height: 200px;
+  max-height: 200px;
+  margin-bottom: 0px;
+}
+
+//Location Style
+.location-section {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  // grid-template-rows: 1fr 1fr;
+  gap: 25px 15px;
+  margin: 0px;
+  padding: 0px;
+  height: 150px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.location-card {
+  cursor: pointer;
+  aspect-ratio: 3/1;
+  width: 98%;
+  // margin: 0.5em;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid steelblue;
+  display: flex;
+  flex-direction: row;
+}
+
+//Service section
+.service-section {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  // grid-template-rows: 1fr 1fr;
+  gap: 10px 15px;
+  margin: 0px;
+  padding: 0px;
+  height: 150px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.service-card {
+  cursor: pointer;
+  aspect-ratio: 3/1;
+  width: 95%;
+  padding: 5px 0px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 3px 0px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  background-color: white;
+}
+
+.card-service-img {
+  width: 3em;
+  border-radius: 50%;
+}
+
+.service-card-name {
+  font-size: 12px;
+  font-weight: bolder;
+}
+
+.insurance-section {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  // grid-template-rows: 1fr 1fr;
+  gap: 25px 15px;
+  margin: 0px;
+  padding: 0px;
+  height: 150px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.insurance-card {
+  cursor: pointer;
+  aspect-ratio: 3/1;
+  width: 98%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid steelblue;
+  display: flex;
+  flex-direction: row;
+}
+
+.doctors {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px 15px;
+  margin: 0px;
+  padding: 0px;
+  height: 150px;
+  max-height: 150px;
+  overflow: auto;
+}
+
+.doctor-card {
+  aspect-ratio: 5/1;
+  width: 95%;
+  padding: 5px 0px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 3px 0px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%),
+    0 1px 3px 0 rgb(0 0 0 / 12%);
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+.card-doctor-img {
+  width: 4em;
+  border-radius: 50%;
+}
+
+.card-img {
+  width: 100%;
+  height: 140px;
+}
+
+.dotBtn-befor {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  background: white;
+  border-radius: 40px;
+}
+.befor-text {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 0;
+  background: white;
+  padding: 2px;
+  opacity: 0.8;
+}
+/////////////////////////////////////////
+///
+.scroll::-webkit-scrollbar {
+  width: 6px;
+  background-color: steelblue;
+  border-radius: 5px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: lightgray;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background-color: steelblue;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(
+    90deg,
+    steelblue 25%,
+    transparent 25%,
+    transparent 50%,
+    steelblue 50%,
+    steelblue 75%,
+    transparent 75%,
+    transparent
+  );
+}
+
+.add-clinic-btn {
+  height: 37px;
+  width: 37px;
+  background-color: steelblue;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+  height: 1.357rem;
+}
+
+.content {
+  max-height: 629px !important;
+}
+
+.service {
+  background: red;
+  :host .p-dialog-header {
+    justify-content: center !important;
+  }
+}
+
+
+
+.icon-img{
+  width: 40px;
+  height: 40px;
+}

@@ -1,0 +1,353 @@
+<div class="content">
+  <div class="img-section">
+    <div class="clinic-img">
+      <img src="assets/images/clinic.jpeg" class="clinic-profile-img" />
+    </div>
+    <div class="img-content mx-2">
+      <div class="d-flex justify-content-between mt-3">
+        <span class="d-flex align-items-center">
+          <img *ngIf="selectedClinic?.iconPath" [src]="selectedClinic?.iconPath" class="icon-img">
+          <h2 class="mx-2 mb-0">{{selectedClinic?.clinicStyle}}</h2>
+        </span>
+        <p-rating [ngModel]="selectedClinic?.rate" [readonly]="true" [stars]="5" [cancel]="false"></p-rating>
+      </div>
+      <div class="mt-5">
+        <div
+          class="d-flex justify-content-between align-items-center"
+          style="border-bottom: 2px solid steelblue"
+        >
+          <span class="d-flex align-items-center">
+            <i class="fa-sharp fa-solid fa-notes-medical" style="font-size:30px;color: steelblue;"></i>
+            <h2 class="mx-2 mb-0">{{ "DESCRIPTION" | translate }}</h2>
+          </span>
+
+          <div class="mb-2">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-pencil"
+              class="p-button-outlined"
+              (click)="onClickEditDescription()"
+              *ngIf="!enableEdiDescription"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="pi pi-times"
+              class="p-button-outlined"
+              (click)="onClickCancel()"
+              *ngIf="enableEdiDescription"
+            ></button>
+          </div>
+        </div>
+        <h3 class="description-text scroll my-2" *ngIf="!enableEdiDescription">
+          {{ selectedClinic?.description }}
+        </h3>
+        <div class="row m-0">
+          <textarea
+            *ngIf="enableEdiDescription"
+            pInputTextarea
+            [(ngModel)]="descriptionText"
+            rows="8"
+            cols="80"
+            class="scroll my-4"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="taps">
+    <div class="tab-options">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex">
+          <h2 class="mb-0">Options</h2>
+        </div>
+        <div class="">
+          <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-outlined"
+          (click)="onClickEdit()"
+          *ngIf="!enableEditing"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          class="p-button-outlined"
+          (click)="onClickCancel()"
+          *ngIf="enableEditing"
+        ></button>
+        </div>
+      </div>
+     
+    </div>
+    <p-tabView [(activeIndex)]="tapIndex" (onChange)="onChangeTap($event)">
+      <p-tabPanel [header]="translate.instant('LOCATION')">
+        <div class="row d-flex justify-content-end mb-2" *ngIf="enableEditing">
+          <button
+            (click)="openLocationModal('Add')"
+            class="add-clinic-btn mx-3"
+          >
+            <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+          </button>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="location-section scroll">
+            <div class="location-card" *ngFor="let location of locationList">
+              <div
+                class="d-flex user-card-name justify-content-center align-items-center w-100"
+              >
+                {{ location["name"] }}
+              </div>
+              <div
+                class="d-flex dotBtn"
+                style="padding-inline: 0p"
+                *ngIf="enableEditing"
+              >
+                <button
+                  style="float: inline-start; height: 100%"
+                  (click)="setSelectedLocation(location)"
+                  [matMenuTriggerFor]="menuLocation"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+              </div>
+            </div>
+
+            <div *ngIf="locationList.length === 0">
+              <p>No Location</p>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel [header]="translate.instant('SERVICES')">
+        <div class="row d-flex justify-content-end mb-2" *ngIf="enableEditing">
+          <button
+            (click)="openServicesModal('Add')"
+            class="add-clinic-btn mx-3"
+          >
+            <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+          </button>
+        </div>
+        <div class="service-section scroll">
+          <div class="service-card" *ngFor="let service of servicesList">
+            <div class="row" *ngIf="enableEditing">
+              <div class="d-flex justify-content-end">
+                <div class="dotBtn" style="padding-inline: 0p">
+                  <button
+                    style="float: inline-start"
+                    (click)="setSelectedService(service)"
+                    [matMenuTriggerFor]="menuService"
+                    #dostButton
+                    pButton
+                    pRipple
+                    type="button"
+                    icon="pi pi-ellipsis-h"
+                    class="p-button-rounded p-button-text p-button-plain"
+                  ></button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-center">
+                <img
+                  class="card-service-img add-shadow"
+                  [src]="service['iconPath'] ? service['iconPath'] : defultImg"
+                />
+              </div>
+              <div class="col-12 text-center mt-2">
+                <span class="service-card-name">{{ service["name"] }} </span>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="servicesList.length === 0">
+            <p>No Services</p>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel [header]="translate.instant('INSURANCE')">
+        <div class="row d-flex justify-content-end mb-2" *ngIf="enableEditing">
+          <button
+            (click)="openInsuranceModal('Add')"
+            class="add-clinic-btn mx-3"
+          >
+            <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+          </button>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="insurance-section scroll">
+            <div class="insurance-card" *ngFor="let Insurance of InsuranceList">
+              <div
+                class="d-flex user-card-name justify-content-center align-items-center w-100"
+              >
+                {{ Insurance["name"] }}
+              </div>
+              <div
+                class="d-flex dotBtn"
+                style="padding-inline: 0p"
+                *ngIf="enableEditing"
+              >
+                <button
+                  style="float: inline-start; height: 100%"
+                  (click)="setSelectedInsurance(Insurance)"
+                  [matMenuTriggerFor]="menuInsurance"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+              </div>
+            </div>
+            <div *ngIf="InsuranceList.length === 0">
+              <p>No Insurance</p>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel [header]="translate.instant('BEFOREANDAFTER')">
+        <div class="row d-flex justify-content-end mb-2" *ngIf="enableEditing">
+          <button
+            (click)="beforAndAfterModal('Add')"
+            class="add-clinic-btn mx-3"
+          >
+            <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+          </button>
+        </div>
+        <div class="row m-0 p-0">
+          <div class="insurance-section scroll">
+            <div class="doctor-card p-0" *ngFor="let beforAndAfter of beforAndAfterList">
+              <div
+                class="d-flex user-card-name justify-content-center align-items-center w-100"
+                (click)="beforAndAfterDetails(beforAndAfter)"
+              >
+              <div class="col-12 text-center" style="position: relative;">
+                <img
+                  class="card-img add-shadow"
+                  [src]="beforAndAfter['imagePath'] ? beforAndAfter['imagePath'] : defultImg"
+                />
+                <span class="befor-text">{{beforAndAfter['text']}}</span>
+              </div>
+              </div>
+              <div
+                class="d-flex dotBtn-befor"
+                style="padding-inline: 0p"
+                *ngIf="enableEditing"
+              >
+                <button
+                  style="float: inline-start; height: 100%"
+                  (click)="setSelectedbeforAndAfter(beforAndAfter)"
+                  [matMenuTriggerFor]="menubeforAndAfter"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+              </div>
+            </div>
+            <div *ngIf="beforAndAfterList.length === 0">
+              <p>No Befor and After</p>
+            </div>
+          </div>
+        </div>
+      </p-tabPanel>
+
+      <p-tabPanel [header]="translate.instant('DOCTORS')">
+        <div class="d-flex justify-content-end mb-2" *ngIf="enableEditing">
+          <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-pencil"
+          class="p-button-outlined"
+          (click)="onEditDoctor()"
+        ></button>
+        </div>
+        <div class="doctors scroll mt-1">
+          <div class="doctor-card" *ngFor="let doctor of doctorsList">
+            <div class="d-flex justify-content-start align-items-center" (click)="showDoctorDetails(doctor)">
+              <div class="">
+                <div class="p-2">
+                  <img
+                    class="card-doctor-img add-shadow"
+                    [src]="
+                      doctor['imagePath'] ? doctor['imagePath'] : defultImg
+                    "
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <span class="user-card-name px-3">{{ doctor["name"] }} </span>
+                <p class="mb-0 px-3">{{ doctor["jurisdiction"] }}</p>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="doctorsList.length === 0">
+            <p>No Doctor</p>
+          </div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</div>
+
+<mat-menu #menuLocation="matMenu">
+  <button (click)="openLocationModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteLocation()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #menuService="matMenu">
+  <button (click)="openServicesModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteService()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #menuInsurance="matMenu">
+  <button (click)="openInsuranceModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteInsurance()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>
+
+<mat-menu #menubeforAndAfter="matMenu">
+  <button (click)="beforAndAfterModal('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteInsurance()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>
+

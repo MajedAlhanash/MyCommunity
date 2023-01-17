@@ -1,0 +1,92 @@
+<div class="mt-2">
+    <h1>{{'ARCHIVES_STROIES'| translate}}</h1>
+  <form action="post">
+    <div class="row">
+      <div class="col-md-12 col-sm-12" style="padding-inline-start: 8px">
+        <mat-form-field
+          [style.backGround]="'white'"
+          [style.width]="'100%'"
+          appearance="outline"
+        >
+          <mat-label>{{ "SEARCH" | translate }}</mat-label>
+          <input matInput />
+          <mat-icon
+            [style.color]="'#5449bf'"
+            [style.cursor]="'pointer'"
+            matPrefix
+            >search</mat-icon
+          >
+        </mat-form-field>
+      </div>
+    </div>
+  </form>
+
+  <div class="">
+    <p-dataView
+      #dv
+      [value]="stories"
+      [paginator]="true"
+      layout="grid"
+      filterBy="name"
+      [rows]="3"
+      class="p-0 m-0"
+    >
+      <ng-template let-story pTemplate="gridItem">
+        <div class="">
+          <div class="story-card">
+            <div class="row p-2">
+              <div class="col-8 d-flex">
+                <img
+                  class="profile-img add-shadow"
+                  [src]="story.clinicImagePath"
+                />
+                <span class="d-flex flex-column px-2">
+                  <p class="mb-0" style="font-weight: bold">
+                    {{ story?.clinicName }}
+                  </p>
+                  <p class="mb-0" style="font-size: 12px">
+                    {{ story.creationTime | date : "short" }}
+                  </p>
+                </span>
+              </div>
+              <div
+                class="col-4 align-items-end flex-column d-flex dotBtn"
+                style="padding-inline: 0p"
+              >
+                <button
+                  style="float: inline-start"
+                  [matMenuTriggerFor]="menu"
+                  (click)="setSelectedArchiveStory(story)"
+                  #dostButton
+                  pButton
+                  pRipple
+                  type="button"
+                  icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"
+                ></button>
+              </div>
+            </div>
+
+            <img [src]="story.imagePath" class="story-img" />
+            <div class="container text-center">
+              <h4 class="mb-0 p-3">
+                {{ story?.text }}
+              </h4>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button (click)="deleteArchiveStory()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+  <button (click)="shareArchiveStory()" mat-menu-item style="color: blue">
+    <mat-icon [style.color]="'red'">share</mat-icon>
+    <span>{{ "SHARE" | translate }}</span>
+  </button>
+</mat-menu>
