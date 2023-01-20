@@ -13,8 +13,11 @@ export class CategoriesService {
   constructor(public httpClient: HttpClient) { }
 
 
-  public getAllCategories(): Observable<CategoriesResponse> {
-    return this.httpClient.get<CategoriesResponse>(this.apiBaseUrl + '/categories/get-all');
+  public getAllCategories(search:string=''): Observable<CategoriesResponse> {
+    return this.httpClient.get<CategoriesResponse>(this.apiBaseUrl + '/categories/categories',{
+      params:{
+        Search: search
+      }});
   }
 
   // public getCategoryByPage(): Observable<CategoriesResponse> {

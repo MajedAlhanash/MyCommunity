@@ -1,7 +1,7 @@
 export interface CategoriesResponse {
     message: boolean;
     status: boolean;
-    value: CategoriesModal
+    dtos: CategoriesModal
 }
 
 export interface CategoriesModal {

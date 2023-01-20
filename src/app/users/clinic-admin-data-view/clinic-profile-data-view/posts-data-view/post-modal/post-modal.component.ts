@@ -54,7 +54,7 @@ export class PostModalComponent implements OnInit {
   getAllCategories() {
     this.loading.showLoading()
     this.categoriesService.getAllCategories().subscribe((res) => {
-      this.categoryList = res.value
+      this.categoryList = res.dtos
       this.loading.hideLoading()
     })
   }

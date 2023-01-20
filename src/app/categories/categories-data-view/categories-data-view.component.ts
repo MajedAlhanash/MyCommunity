@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { CategoriesModal, CategoriesResponse, NewCategoryModal } from 'src/app/model/categories/categories.modal';
+import { Subscription } from 'rxjs';
+import { NewCategoryModal } from 'src/app/model/categories/categories.modal';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 import { CategoryModalComponent } from '../category-modal/category-modal.component';
@@ -13,12 +14,15 @@ import { CategoryModalComponent } from '../category-modal/category-modal.compone
   templateUrl: './categories-data-view.component.html',
   styleUrls: ['./categories-data-view.component.scss']
 })
-export class CategoriesDataViewComponent implements OnInit {
+export class CategoriesDataViewComponent implements OnInit, OnDestroy {
 
   public selectedCategory: any;
 
   public defultImg = 'assets/images/users/default.png';
   public categories: any;
+  sub!: Subscription;
+
+
 
   constructor(
     public translate: TranslateService,
@@ -28,22 +32,27 @@ export class CategoriesDataViewComponent implements OnInit {
     private messageService: MessageService,
     private loading: LoadingService
   ) { }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe()    
+  }
 
   ngOnInit(): void {
-    this.getAllCategories();
+    this.getCategories();
   }
 
 
-  getAllCategories() {
+  getCategories(search?: string) {
     this.loading.showLoading()
-    this.categoriesService.getAllCategories().subscribe((res) => {
-      this.categories = res.value
+    this.sub = this.categoriesService.getAllCategories(search).subscribe((res) => {
+      this.categories = res.dtos
       this.loading.hideLoading()
     })
   }
 
 
-  test() { }
+  search(searchValue:string) {
+      this.getCategories(searchValue);     
+   }
 
   openCategoryModal(status: string) {
     this.dialogSer

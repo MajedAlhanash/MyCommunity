@@ -22,14 +22,14 @@
           >
           </ngx-dropzone-image-preview>
         </ngx-dropzone>
-      <span class="text-center py-2">{{ subCategory ? translate.instant("ADD_IMAGE") :translate.instant("SELECT_ICON")}}</span>
+      <span class="text-center py-2">{{translate.instant("ADD_IMAGE")}}</span>
     </div>
-    <mat-form-field [style.width]="'100%'" appearance="outline" *ngIf="!subCategory">
+    <mat-form-field [style.width]="'100%'" appearance="outline" >
       <mat-label>{{ "CATEGORY_NAME" | translate }}</mat-label>
       <input matInput autocomplete="nope" formControlName="Name" />
     </mat-form-field>  
 
-    <mat-form-field appearance="outline" [style.width]="'100%'">
+    <mat-form-field appearance="outline" [style.width]="'100%'" *ngIf="dialogStatus!='Edit';">
       <mat-label>{{ "CLINICS" | translate }}</mat-label>
       <mat-select [multiple]="true" formControlName="clinics">
         <input
@@ -44,15 +44,6 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field [style.width]="'100%'" appearance="outline" *ngIf="!subCategory">
-      <mat-label>{{ "DESCRIPTION" | translate }}</mat-label>
-      <textarea
-        matInput
-        formControlName="desc"
-        rows="6"
-        cols="60"
-      ></textarea>
-    </mat-form-field>
   </form>
   
   <div class="p-dialog-footer p-0 px-1">

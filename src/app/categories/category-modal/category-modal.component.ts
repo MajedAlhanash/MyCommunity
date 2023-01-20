@@ -1,7 +1,9 @@
 import { Component, OnInit, SecurityContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { Subscription } from 'rxjs';
 import { ClinicsService } from 'src/app/services/clinics/clinics.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
 
@@ -14,12 +16,12 @@ export class CategoryModalComponent implements OnInit {
   public categoryForm!: FormGroup;
   public dialogStatus!: string;
   public selectedCategory: any;
-  public subCategory: boolean = false;
   public clinicList:any
   public clinicSearchList:any
   //File uploader
   files: File[] = [];
   profileImageSrc = 'assets/images/users/default.png';
+  sub!: Subscription;
 
 
   constructor(
@@ -43,7 +45,6 @@ export class CategoryModalComponent implements OnInit {
     if (this.config.data) {
       this.getAllCLinics()
       this.dialogStatus = this.config.data.status;
-      this.subCategory = this.config.data.subCategory
       this.selectedCategory = this.config.data.selectedCategory;
       if (this.dialogStatus === 'Edit') {
         this.files.push(this.selectedCategory.iconPath)
@@ -55,7 +56,7 @@ export class CategoryModalComponent implements OnInit {
 
   getAllCLinics(){
     this.loading.showLoading()
-    this.clinicService.getAllCLinics(1 , 100).subscribe(res=>{
+    this.sub = this.clinicService.getAllCLinics(1 , 100).subscribe(res=>{
         this.clinicList = res.value;
         this.clinicSearchList = res.value;
         this.loading.hideLoading()
@@ -70,6 +71,7 @@ export class CategoryModalComponent implements OnInit {
   }
 
   onSelect(event: any) {
+    this.files = [];
     this.files.push(...event.addedFiles);
     console.log(this.files);
 
@@ -84,7 +86,7 @@ export class CategoryModalComponent implements OnInit {
   }
 
   onRemove(event: any) {
-    this.files.splice(this.files.indexOf(event), 1);
+    this.files = [];
   }
 
 
@@ -106,4 +108,5 @@ export class CategoryModalComponent implements OnInit {
       }
     }
   }
+  
 }

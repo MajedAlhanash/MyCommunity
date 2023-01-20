@@ -7,7 +7,6 @@
     </div>
   </div>
 
-  <form action="post">
     <div class="row">
       <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
         <mat-form-field
@@ -16,17 +15,18 @@
           appearance="outline"
         >
           <mat-label>{{ "SEARCH" | translate }}</mat-label>
-          <input matInput />
+          <input  matInput type="search" #searchComp
+          (keydown.enter)="search(searchComp.value)" />
           <mat-icon
             [style.color]="'#5449bf'"
             [style.cursor]="'pointer'"
-            (click)="test()"
+            (click)="search(searchComp.value)"
             matPrefix
             >search</mat-icon
           >
         </mat-form-field>
       </div>
-
+      
       <div
         class="col-md-1 col-sm-12 d-flex align-items-center  justify-content-center"
         style="padding-inline-start: 0; padding-right: 10px"
@@ -36,9 +36,8 @@
         </button>
       </div>
     </div>
-  </form>
 
-  <div class="">
+  <div class="row">
     <p-dataView
       #dv
       [value]="categories"

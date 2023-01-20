@@ -53,7 +53,7 @@ export class ClinicModalComponent implements OnInit {
 
   getAllCategories(){
     this.categorySer.getAllCategories().subscribe(res=>{
-      this.categories = res.value
+      this.categories = res.dtos
     })
   }
 
