@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { RoleService } from 'src/app/services/role.service';
 
 @Component({
   selector: 'app-role-modal',
@@ -13,53 +14,44 @@ export class RoleModalComponent implements OnInit {
   public roleForm!: FormGroup
   public dialogStatus!: string
   public selectedRole: any;
-  public RolesList= [
-    {
-      label: 'User',
-      value: 'user'
-    },
-    {
-      label: 'Clinic Admin',
-      value: 'clinic_admin'
-    },
-    {
-      label: 'Categories',
-      value: 'categories'
-    },
-    {
-      label: 'Notifications',
-      value: 'notifications'
-    },
-    {
-      label: 'Super Admin',
-      value: 'super_admin'
-    }
-  ]
 
+  allPermissions: any[] = []
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: DynamicDialogRef,
     private config: DynamicDialogConfig,
     public translate: TranslateService,
-  ) { 
+    private roleSer: RoleService
+  ) {
     this.roleForm = this._fb.group({
       name: ['', Validators.required],
-      role: ['', Validators.required],
+      
     });
   }
 
+  perIds: any[]=[];
+  
+
   ngOnInit(): void {
+    this.roleSer.getAllPermissions().subscribe(res => {
+      this.allPermissions = res.dtos
+    })
+
     if (this.config.data) {
       this.dialogStatus = this.config.data.status;
       this.selectedRole = this.config.data.selectedRole
       if (this.dialogStatus === 'Edit') {
-        this.roleForm.get('name')?.setValue(this.selectedRole.name);
-        this.roleForm.get('role')?.setValue(this.selectedRole.role);
+        console.log(this.selectedRole)
+        this.roleForm.get('name')?.setValue(this.selectedRole.displayName);
+        this.selectedRole.permissions.forEach((ele: any) => {
+          this.perIds.push(ele.id)
+        })
+        console.log(this.perIds)
       }
     }
   }
 
-  saveRole(role:any){
+  saveRole(role: any) {
     this._dialogRef.close(role)
   }
 

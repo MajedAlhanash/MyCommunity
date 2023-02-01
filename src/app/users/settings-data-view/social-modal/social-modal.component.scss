@@ -23,13 +23,6 @@
   width: 95%;
 }
 
-.modal-profile-img {
-  aspect-ratio: 1 / 1;
-  width: 25%;
-  border-radius: 50%;
-  margin-top: 5px;
-  cursor: pointer;
-}
 
 //-----Dialog-----------------------------
 :host ::ng-deep .p-dialog .p-dialog-footer {
@@ -45,30 +38,52 @@
   border: 5px solid steelblue !important;
 }
 
-.ngx-drop {
-  display: flex;
-  align-items: center;
-  height: 90px;
-  background: #fff;
+
+
+.file-upload {
+  position: absolute;
+  top: 69px;
+  right: -44px;
+}
+
+.file-upload1 {
+  position: absolute;
+  top: -7px;
+  right: -1px;
+  z-index: 100;
+}
+
+.file-upload2 {
+  position: absolute;
+  top: -7px;
+  left: -1px;
+  z-index: 100;
+}
+
+.file-upload input[type='file'],
+.file-upload1 input[type='file'],
+.file-upload2 input[type='file'] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
   cursor: pointer;
-  color: #717386;
-  border: 2px dashed #717386;
-  border-radius: 5px;
-  font-size: 16px;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 20%;
-  border-radius: 100px;
+  opacity: 0;
 }
 
-:host ::ng-deep img {
-  width: 155% !important;
-}
-:host ::ng-deep ngx-dropzone-remove-badge {
-  top: 40px !important;
-  right: 0px;
-}
-
-:host ::ng-deep  ngx-dropzone > ngx-dropzone-image-preview {
-  margin: 0px !important;
+.file-upload label,
+.file-upload1 label,
+.file-upload2 label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background: steelblue;
+  color: white;
+  font-weight: 600;
+  border-radius: 50%;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
 }

@@ -13,6 +13,14 @@
   -moz-box-shadow: none !important;
 }
 
+.jay_taxi_table {
+  container-element {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 .header {
   font-size: 20px;
   font-weight: bold;
@@ -46,7 +54,20 @@
 }
 
 :host ::ng-deep .date.mat-form-field-appearance-outline .mat-form-field-infix {
-    display: flex;
-    padding: 0px;
-  }
-  
+  display: flex;
+  padding: 0px;
+}
+
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 0 .75em 0 .75em !important;
+}
+
+:host ::ng-deep mat-datepicker-toggle {
+  width: 60% !important;
+  display: flex !important;
+  justify-content: end !important;
+}
+
+tr td {
+  border-right: 1px solid steelblue !important;
+}

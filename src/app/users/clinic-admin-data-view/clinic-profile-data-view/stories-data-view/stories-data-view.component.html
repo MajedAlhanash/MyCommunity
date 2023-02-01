@@ -1,5 +1,5 @@
 <div class="mt-2">
-  <h1>{{'ACTIVE_STORIES'| translate}}</h1>
+  <h1>{{'STORIES'| translate}}</h1>
   <form action="post">
     <div class="row">
       <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
@@ -9,11 +9,12 @@
           appearance="outline"
         >
           <mat-label>{{ "SEARCH" | translate }}</mat-label>
-          <input matInput />
+          <input matInput #input/>
           <mat-icon
             [style.color]="'#5449bf'"
             [style.cursor]="'pointer'"
             matPrefix
+            (click)="search(input.value)"
             >search</mat-icon
           >
         </mat-form-field>

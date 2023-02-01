@@ -5,9 +5,9 @@
   </mat-form-field>
 
   <mat-form-field appearance="outline" [style.width]="'100%'">
-    <mat-label>{{ "ROLE" | translate }}</mat-label>
-    <mat-select [multiple]="true">
-      <mat-option *ngFor="let role of RolesList" [value]="role.value">{{ role.label | translate }}</mat-option>
+    <mat-label>{{ "Permissions" | translate }}</mat-label>
+    <mat-select [multiple]="true"  [(value)]="perIds" >
+      <mat-option *ngFor="let permission of allPermissions" [value]="permission.id"  >{{ permission.displayName | translate }}</mat-option>
     </mat-select>
   </mat-form-field>
 </form>

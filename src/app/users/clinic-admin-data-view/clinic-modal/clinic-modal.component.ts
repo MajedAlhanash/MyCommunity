@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
-
+import {ClinicsService} from 'src/app/services/clinics/clinics.service'
 @Component({
   selector: 'app-clinic-modal',
   templateUrl: './clinic-modal.component.html',
@@ -14,27 +15,32 @@ export class ClinicModalComponent implements OnInit {
   public dialogStatus!: string;
   public selectedClinic: any;
   public categories: any;
-
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  finalFile: any;
+  imageBase64: any;
   profileImageSrc = 'assets/images/users/default.png';
   //File uploader
   files: File[] = [];
-
+  editing = true;
   constructor(
     private _fb: FormBuilder,
     private _dialogRef: DynamicDialogRef,
     private config: DynamicDialogConfig,
     public translate: TranslateService,
-    private categorySer: CategoriesService
+    private categorySer: CategoriesService,
+    private clinicService: ClinicsService
   ) {
     this.clinicForm = this._fb.group({
-      name: ['', Validators.required],
+      clinicName: ['', Validators.required],
+      userName: ['', Validators.required],
       email: ['', Validators.required],
-      website: ['', Validators.required],
+      website: [''],
       password: ['', Validators.required],
       gender: ['', Validators.required],
       phone: ['', Validators.required],
-      clinic_style: [],
-      category: []
+      category: [],
+      image: []
     });
   }
 
@@ -43,16 +49,28 @@ export class ClinicModalComponent implements OnInit {
       this.getAllCategories();
       this.dialogStatus = this.config.data.status;
       this.selectedClinic = this.config.data.selectedClinic;
-      if (this.dialogStatus === 'Edit') {
-        this.clinicForm.get('name')?.setValue(this.selectedClinic.name);
-        this.clinicForm.get('email')?.setValue(this.selectedClinic.email);
-      }
+      this.getClinicDetailsById(this.selectedClinic.id)
+      
     }
   }
+  
 
-
-  getAllCategories(){
-    this.categorySer.getAllCategories().subscribe(res=>{
+  getClinicDetailsById(id: any) {
+    this.clinicService.getClinicDetailsById(id).subscribe(res => {
+      this.selectedClinic = res.value
+      if (this.dialogStatus === 'Edit') {
+        this.editing = false
+        console.log(this.selectedClinic)
+        this.profileImageSrc = this.selectedClinic.imagePath;
+        this.clinicForm.get('clinicName')?.setValue(this.selectedClinic.name);
+        this.clinicForm.get('phone')?.setValue(this.selectedClinic.phoneNumber);
+        this.clinicForm.get('website')?.setValue(this.selectedClinic.websiteUrl);
+        this.clinicForm.get('category')?.setValue(this.selectedClinic.clinicCategories.categoryId);
+      }
+    })
+  }
+  getAllCategories() {
+    this.categorySer.getAllCategories().subscribe(res => {
       this.categories = res.dtos
     })
   }
@@ -65,18 +83,58 @@ export class ClinicModalComponent implements OnInit {
     this._dialogRef.close(null);
   }
 
-  onSelect(event: any) {
-    this.files.push(...event.addedFiles);
+  formData = new FormData();
 
-    const formData = new FormData();
+  onFileChange(event: any) {
+    this.imageChangedEvent = event;
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
 
-    for (var i = 0; i < this.files.length; i++) {
-      formData.append('file[]', this.files[i]);
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // convert image to base64 format
+        this.imageBase64 = reader.result as string;
+      };
     }
   }
 
-  onRemove(event: any) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+  dataURLtoFile(dataurl: any, filename: any) {
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
   }
+
+  imageCropped(event: ImageCroppedEvent) {
+    this.imageBase64 = event.base64;
+    let file = this.dataURLtoFile(this.imageBase64, 'photo.png');
+    this.clinicForm.get('image')?.setValue(file);
+  }
+
+  imageLoaded() {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
+
+  cropperClosed = false;
+  closeCropper(event: any) {
+    event.preventDefault();
+    this.cropperClosed = true;
+  }
+
+
 }

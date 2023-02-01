@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import { RoleService } from 'src/app/services/role.service';
+import { UsersService } from 'src/app/services/users/users.service';
 import { AdminModalComponent } from './admin-modal/admin-modal.component';
 import { AdminResetPasswordModalComponent } from './admin-reset-password-modal/admin-reset-password-modal.component';
 
@@ -15,167 +17,14 @@ export class AdminsDataViewComponent implements OnInit {
   public selectedAdmin: any;
   public defultImg = 'assets/images/users/default.png';
 
-  admins = [
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-      role:"Admin"
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-      role:"Admin"
-
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'female',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: '',
-      active: false,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: '',
-      active: false,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: '',
-      active: false,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png',
-      active: true,
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.ascasdas',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-    {
-      name: 'Name Name',
-      phone: '+971 456 879',
-      email: 'main@kasd.asc',
-      gender: 'male',
-      imageUrl: 'assets/images/users/img.png'
-    },
-  ]
+  admins: any[] = []
+  roleList: any[] = []
   constructor(
     public translate: TranslateService,
     private dialogSer: DialogService,
-    public loading: LoadingService
+    public loading: LoadingService,
+    private userSer: UsersService,
+    private roleSer: RoleService
   ) { }
 
   ngOnInit(): void {
@@ -183,52 +32,106 @@ export class AdminsDataViewComponent implements OnInit {
     setTimeout(() => {
       this.loading.hideLoading()
     }, 100);
+    this.getAllSuperAdmins();
   }
 
-  test() {
-    alert('hi')
+  getAllSuperAdmins() {
+    this.userSer.getAllSuperAdmins().subscribe(res => {
+      console.log(res.dtos)
+      this.admins = res.dtos;
+
+    })
+  }
+
+
+  test(text:any) {
+    this.userSer.searchAdminByName(text).subscribe((res:any) =>{
+      this.admins = res.dtos;
+    })
   }
 
   //Create new admin
   openAdminModal(status: string) {
-    this.dialogSer
-      .open(AdminModalComponent, {
-        data: {
-          status: status,
-          selectedAdmin: this.selectedAdmin
-        },
-        header: status === 'Add' ? this.translate.instant('ADD_ADMIN') : this.translate.instant('EDIT_ADMIN'),
-        autoZIndex: true,
-        width: '700px',
-      })
-      .onClose.subscribe((result) => {
-        if (!result) {
-          return
-        }
-        if (status === 'Add') {
-          this.addNewAdmin()
-        } else {
-          this.editAdmin();
-        }
-      })
+    setTimeout(() => {
+      this.dialogSer
+        .open(AdminModalComponent, {
+          data: {
+            status: status,
+            selectedAdmin: this.selectedAdmin
+          },
+          header: status === 'Add' ? this.translate.instant('ADD_ADMIN') : this.translate.instant('EDIT_ADMIN'),
+          autoZIndex: true,
+          width: '700px',
+        })
+        .onClose.subscribe((result) => {
+          if (!result) {
+            return
+          }
+          if (status === 'Add') {
+            this.addNewAdmin(result)
+          } else {
+            this.editAdmin(result);
+          }
+        })
+    }, 1000)
+
   }
 
-  private addNewAdmin() { }
+  private addNewAdmin(result: any) {
+    let formData = new FormData();
+    formData.append('FirstName', result.firstName);
+    formData.append('LastName', result.lastName);
+    formData.append('Image', result.image);
+    formData.append('Email', result.email);
+    formData.append('Password', result.password);
+    formData.append('PhoneNumber', result.phoneNumber);
+    formData.append('Type', '1');
+    formData.append('Roles', result.role);
+    formData.append('IsActive', result.isActive);
 
-  private editAdmin() { }
+    this.userSer.createUser(formData).subscribe(res => {
+      console.log(res)
+      this.getAllSuperAdmins();
+    })
+  }
+
+  private editAdmin(result: any) {
+    console.log(result)
+    let formData = new FormData();
+    formData.append('FirstName', result.firstName);
+    formData.append('LastName', result.lastName);
+    formData.append('Image', result.image);
+    formData.append('Email', result.email);
+    formData.append('Password', result.password);
+    formData.append('PhoneNumber', result.phoneNumber);
+    formData.append('Type', '1');
+    formData.append('Roles', result.role);
+    formData.append('IsActive', result.isActive);
+    formData.append('Id', this.selectedAdmin.id)
+
+    this.userSer.updateUser(formData).subscribe(res => {
+      console.log(res)
+      this.getAllSuperAdmins();
+    })
+  }
 
   public setSelectedAdmin(user: any) {
     this.selectedAdmin = user;
   }
 
-  deleteAdmin() {
-    let index = this.admins.indexOf(this.selectedAdmin);
-    this.admins.splice(index, 1);
+  deleteAdmin(admin: any) {
+    this.userSer.deleteUser(admin.id).subscribe(
+      res => {
+        console.log(res)
+      },
+      error => {
+        this.getAllSuperAdmins();
+      })
   }
 
   //------------------------------------------
   //------Reset password
-  openResetPasswordModal() {
+  openResetPasswordModal(admin: any) {
     this.dialogSer
       .open(AdminResetPasswordModalComponent, {
         header: this.translate.instant('RESET_PASSWORD'),
@@ -239,10 +142,14 @@ export class AdminsDataViewComponent implements OnInit {
         if (!result) {
           return
         }
-        this.adminResetPassword()
+        this.adminResetPassword(result, admin)
       })
   }
 
-  private adminResetPassword() { }
+  private adminResetPassword(result: any, admin: any) {
+    this.userSer.resetPassword(admin.id, result.new_password).subscribe(res => {
+      console.log(res)
+    })
+  }
 }
 

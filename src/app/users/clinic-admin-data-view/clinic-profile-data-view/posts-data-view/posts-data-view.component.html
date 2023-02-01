@@ -10,11 +10,12 @@
           appearance="outline"
         >
           <mat-label>{{ "SEARCH" | translate }}</mat-label>
-          <input matInput />
+          <input matInput #input/>
           <mat-icon
             [style.color]="'#5449bf'"
             [style.cursor]="'pointer'"
             matPrefix
+            (click)="search(input.value)"
             >search</mat-icon
           >
         </mat-form-field>
@@ -38,7 +39,7 @@
       [paginator]="true"
       layout="grid"
       filterBy="name"
-      [rows]="6"
+      [rows]="3"
       class="p-0 m-0"
     >
       <ng-template let-post pTemplate="gridItem">

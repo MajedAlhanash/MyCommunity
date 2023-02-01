@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -13,19 +13,22 @@ export class SettingsService {
   constructor(public httpClient: HttpClient) { }
 
   getSocailAccount() : Observable<any> {
-    return this.httpClient.get<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-accounts/get-accounts`)
+    return this.httpClient.get<any>(this.apiBaseUrl + 'settings/app/api/settings/app-social-accounts/get-accounts')
   }
 
   addNewSocialAccount(socialAccount: any): Observable<any> {
-    return this.httpClient.post<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-account/add-account` , socialAccount)
+    return this.httpClient.post<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-accounts/add-account` , socialAccount)
   }
 
   updateSocialAccount(socialAccount: any): Observable<any> {
-    return this.httpClient.post<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-account/update-account` , socialAccount)
+    console.log(socialAccount)
+    return this.httpClient.post<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-accounts/update-account` , socialAccount)
   }
 
   deleteSocialAccount(socialAccount: any): Observable<any> {
-    return this.httpClient.delete<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-account/delete-account` , socialAccount)
+    console.log(socialAccount)
+    let params = new HttpParams().set('id',socialAccount)
+    return this.httpClient.delete<any>(this.apiBaseUrl + `/settings/app/api/settings/app-social-accounts/delete-account` , {params})
   }
 
 

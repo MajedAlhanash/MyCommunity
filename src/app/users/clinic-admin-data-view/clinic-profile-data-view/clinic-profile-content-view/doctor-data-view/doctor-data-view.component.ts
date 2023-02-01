@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { DynamicDialogRef, DynamicDialogConfig, DialogService } from 'primeng/dynamicdialog';
+import { ClinicsService } from 'src/app/services/clinics/clinics.service';
 import { DoctorModalComponent } from './doctor-modal/doctor-modal.component';
 
 @Component({
@@ -10,7 +11,9 @@ import { DoctorModalComponent } from './doctor-modal/doctor-modal.component';
 })
 export class DoctorDataViewComponent implements OnInit {
 
+
   public doctorList!:any;
+  clinicId:any
   public defultImg = 'assets/images/users/default.png';
   selectedDoctor: any;
 
@@ -19,13 +22,16 @@ export class DoctorDataViewComponent implements OnInit {
     private dialogSer: DialogService,
     private config: DynamicDialogConfig,
     public translate: TranslateService,
+    private clinicService:ClinicsService
   ) { }
 
   ngOnInit(): void {
-    console.log(this.config.data);
+    console.log(this.config);
     
     if (this.config.data) {
       this.doctorList = this.config.data.doctorsList
+      this.clinicId = this.config.data.clinicIdNumber
+      console.log(this.doctorList)
     }
   }
 
@@ -40,6 +46,7 @@ export class DoctorDataViewComponent implements OnInit {
       data:{
         status: status,
         selectedDoctor: this.selectedDoctor,
+        clinicIdNumber:this.clinicId,
         showDetails: false
       },
       autoZIndex: true,
@@ -60,7 +67,12 @@ export class DoctorDataViewComponent implements OnInit {
   }
   addNewDoctor(){}
   editDoctor(){}
-  deleteDoctor(){}
+  deleteDoctor(){
+    console.log(this.selectedDoctor)
+    this.clinicService.deleteDoctor(this.selectedDoctor.id).subscribe(res => {
+      console.log(res)
+    })
+  }
 
 
   public showDoctorDetails(doctor:any){
