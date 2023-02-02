@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'primeng/dynamicdialog';
+import { ClinicsService } from 'src/app/services/clinics/clinics.service';
 import { ConfirmedModalComponent } from './confirmed-modal/confirmed-modal.component';
 
 @Component({
@@ -10,6 +12,7 @@ import { ConfirmedModalComponent } from './confirmed-modal/confirmed-modal.compo
 })
 export class ConfirmedDataViewComponent implements OnInit {
 
+  clinicId: any
   public confirmedList = [
     {
       doctor_name: "NAME NAME",
@@ -132,9 +135,21 @@ export class ConfirmedDataViewComponent implements OnInit {
   constructor(
     public translate: TranslateService,
     private dialogSer: DialogService,
-  ) { }
-
+    private route: ActivatedRoute,
+    private clinicSer: ClinicsService
+  ) {
+    this.route?.parent?.params.subscribe(res => {
+      this.clinicId = res['id'];
+    })
+  }
   ngOnInit(): void {
+    this.getClinicConfirmedAppointments(this.clinicId)
+  }
+
+  getClinicConfirmedAppointments(id: any) {
+    this.clinicSer.getClinicConfirmedAppointments(id).subscribe(res => {
+      console.log(res)
+    })
   }
 
   addNewRequest(status: string) {

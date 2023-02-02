@@ -8,48 +8,29 @@
   </div>
 
   <div class="">
-    <p-table
-      [value]="admins"
-      styleClass="p-datatable-gridlines"
-      [responsiveLayout]="'scroll'"
-      [paginator]="true"
-      [rows]="30"
-      [rowHover]="true"
-      [scrollable]="true"
-      scrollHeight="370px"
-    >
-    <ng-template pTemplate="caption">
-      <form action="post">
-        <div class="row">
-          <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
-            <mat-form-field
-              [style.backGround]="'white'"
-              [style.width]="'100%'"
-              appearance="outline"
-            >
-              <mat-label>{{ "SEARCH" | translate }}</mat-label>
-              <input matInput />
-              <mat-icon
-                [style.color]="'#5449bf'"
-                [style.cursor]="'pointer'"
-                (click)="test()"
-                matPrefix
-                >search</mat-icon
-              >
-            </mat-form-field>
+    <p-table [value]="admins" styleClass="p-datatable-gridlines" [responsiveLayout]="'scroll'" [paginator]="true"
+      [rows]="30" [rowHover]="true" [scrollable]="true" scrollHeight="370px">
+      <ng-template pTemplate="caption">
+        <form action="post">
+          <div class="row">
+            <div class="col-md-11 col-sm-12" style="padding-inline-start: 8px">
+              <mat-form-field [style.backGround]="'white'" [style.width]="'100%'" appearance="outline">
+                <mat-label>{{ "SEARCH" | translate }}</mat-label>
+                <input matInput #input/>
+                <mat-icon [style.color]="'#5449bf'" [style.cursor]="'pointer'" (click)="test(input.value)"
+                  matPrefix>search</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
+              style="padding-inline-start: 0; padding-right: 10px">
+              <button (click)="openAdminModal('Add')" class="add-btn">
+                <mat-icon [style.fontSize]="'25px'">add</mat-icon>
+              </button>
+            </div>
           </div>
-    
-          <div
-            class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
-            style="padding-inline-start: 0; padding-right: 10px"
-          >
-            <button (click)="openAdminModal('Add')" class="add-btn">
-              <mat-icon [style.fontSize]="'25px'">add</mat-icon>
-            </button>
-          </div>
-        </div>
-      </form>
-    </ng-template>
+        </form>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th>{{'NAME'| translate}}</th>
@@ -58,22 +39,23 @@
           <th>{{'CREATION_DATE' | translate}}</th>
           <th>{{'STATUS' | translate }}</th>
           <th></th>
-
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-admin>
         <tr>
-          <td>{{ admin.name }}</td>
+          <td>{{admin.firstName }} {{ admin.lastName}}</td>
           <td>{{ admin.email }}</td>
-          <td>{{ admin.brand }}</td>
-          <td>{{ admin.color }}</td>
-          <td>{{ admin.color }}</td>
+          <td><span *ngFor="let role of admin.userRoles">{{role.name}}, </span></td>
+          <td>{{ admin.creationTime | date}}</td>
+          <td>{{ admin.isActive === true ?'Active':'Not Active' }}</td>
           <td>
             <div class="d-flex justify-content-around ">
-              <i class="pi pi-pencil text-success" pTooltip="Edit" [tooltipPosition]="'top'" (click)="openAdminModal('Edit')"></i>
-              <i class="pi pi-trash text-danger " pTooltip="Delete" [tooltipPosition]="'top'" (click)="deleteAdmin()"></i>
-              <i class="pi pi-lock" pTooltip="Reset Password" [tooltipPosition]="'top'"  (click)="openResetPasswordModal()"></i>
-
+              <i class="pi pi-pencil text-success" pTooltip="Edit" [tooltipPosition]="'top'"
+                (click)="openAdminModal('Edit');setSelectedAdmin(admin)"></i>
+              <i class="pi pi-trash text-danger " pTooltip="Delete" [tooltipPosition]="'top'"
+                (click)="deleteAdmin(admin)"></i>
+              <i class="pi pi-lock" pTooltip="Reset Password" [tooltipPosition]="'top'"
+                (click)="openResetPasswordModal(admin)"></i>
             </div>
           </td>
 

@@ -1,40 +1,39 @@
 <form [formGroup]="adminForm" class="row m-0 p-0">
-  <div class="row p-0 m-0 d-flex justify-content-center">
-    <ngx-dropzone
-      (change)="onSelect($event)"
-      [multiple]="false"
-      class="ngx-drop"
-    >
-      <ngx-dropzone-label
-        ><i
-          class="fa fa-regular fa-image"
-          style="font-size: 30px; color: steelblue"
-        ></i
-      ></ngx-dropzone-label>
-      <ngx-dropzone-image-preview
-        ngProjectAs="ngx-dropzone-preview"
-        class="preview-img"
-        *ngFor="let f of files"
-        [file]="f"
-        [removable]="true"
-        (removed)="onRemove(f)"
-        style="width: 100%;border-radius: 100px;margin: 0px;"
-      >
-      </ngx-dropzone-image-preview>
-    </ngx-dropzone>
-    <span class="text-center py-2">{{ "ADD_IMAGE" | translate }}</span>
+  <div class="row p-0 m-0 d-flex justify-content-center position-relative">
+    <div class="image-container d-flex justify-content-center">
+      <img [src]="imageBase64 ? imageBase64 : profileImageSrc" alt="">
+    </div>
+    <div class="file-upload text-center">
+      <input type="file" id="file-input" (change)="onFileChange($event)" />
+      <label for="file-input">
+        <span>+</span>
+      </label>
+    </div>
+
+    <div *ngIf="imageChangedEvent" class="position-relative">
+      <image-cropper *ngIf="!cropperClosed" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" [roundCropper]="true"
+        (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+      <div class="file-upload1 text-center">
+        <label for="file-input" (click)="closeCropper($event)">
+          <span>X</span>
+        </label>
+      </div>
+    </div>
+
   </div>
   <div class="row m-0 p-0">
     <div class="col-6">
       <mat-form-field [style.width]="'100%'" appearance="outline">
         <mat-label>{{ "FIRST_NAME" | translate }}</mat-label>
-        <input matInput autocomplete="nope" formControlName="name" />
+        <input matInput autocomplete="nope" formControlName="firstName" />
       </mat-form-field>
     </div>
     <div class="col-6">
       <mat-form-field [style.width]="'100%'" appearance="outline">
         <mat-label>{{ "LAST_NAME" | translate }}</mat-label>
-        <input matInput autocomplete="nope" formControlName="name" />
+        <input matInput autocomplete="nope" formControlName="lastName" />
       </mat-form-field>
     </div>
   </div>
@@ -48,7 +47,7 @@
     <div class="col-6">
       <mat-form-field [style.width]="'100%'" appearance="outline">
         <mat-label>{{ "PHONE_NUMBER" | translate }}</mat-label>
-        <input matInput autocomplete="nope" formControlName="email" type="number" />
+        <input matInput autocomplete="nope" formControlName="phoneNumber" type="number" />
       </mat-form-field>
     </div>
   </div>
@@ -70,15 +69,15 @@
     <div class="col-6">
       <mat-form-field appearance="outline" [style.width]="'100%'">
         <mat-label>{{ "ROLE" | translate }}</mat-label>
-        <mat-select [multiple]="true">
-          <mat-option *ngFor="let role of RolesList" [value]="role.value">{{ role.label | translate }}</mat-option>
+        <mat-select [multiple]="true" formControlName="role"  >
+          <mat-option *ngFor="let role of RolesList" [value]="role.id">{{ role.displayName | translate }}</mat-option>
         </mat-select>
       </mat-form-field>
     </div>
     <div class="col-6">
       <mat-form-field appearance="outline" [style.width]="'100%'">
         <mat-label>{{ "ACTIVE" | translate }}</mat-label>
-        <mat-select>
+        <mat-select  formControlName="isActive">
           <mat-option value="1">{{ "Yes" | translate }}</mat-option>
           <mat-option value="0">{{ "No" | translate }}</mat-option>
         </mat-select>

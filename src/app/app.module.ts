@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MaterialModule } from './shared/material.module';
 import { PrimengModule } from './shared/primeng.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+
 import { MainComponent } from './shared/component/main/main.component';
 import { SidebarComponent } from './shared/component/sidebar/sidebar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -26,6 +23,14 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmationDialog } from './shared/component/confirmation-dialog/confirmation-dialog.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import {
+  HttpClient,
+  HttpClientJsonpModule,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
+import { DisplayCustomUsersComponent } from './notifications/display-custom-users/display-custom-users.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,13 +41,17 @@ import { ConfirmationDialog } from './shared/component/confirmation-dialog/confi
     NotificationsComponent,
     NotificationModalComponent,
     ConfirmationDialog,
+    DisplayCustomUsersComponent,
   ],
   imports: [
-    BrowserAnimationsModule,
+    BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    GoogleMapsModule,
+    HttpClientJsonpModule,
+    HttpClientModule,
     MaterialModule,
     PrimengModule,
-    HttpClientModule,
     ToastModule,
     TranslateModule.forRoot({
       loader: {

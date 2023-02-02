@@ -18,16 +18,34 @@
 </p-header>
 
 <form [formGroup]="storyForm">
-  <div class="row p-0 m-0 d-flex justify-content-center">
-      <ngx-dropzone (change)="onSelect($event)" [multiple]="false" class="ngx-drop">
-          <ngx-dropzone-label><i class="fa fa-regular fa-image"
-                  style="font-size: 30px; color: steelblue"></i></ngx-dropzone-label>
-          <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" class="preview-img" *ngFor="let f of files"
-              [file]="f" [removable]="true" (removed)="onRemove(f)"
-              style="width: 100%;border-radius: 100px;margin: 0px;">
-          </ngx-dropzone-image-preview>
-      </ngx-dropzone>
-  </div>
+  <div class="row w-100 p-0 m-0 d-flex justify-content-center position-relative">
+    <div class="before-image-container d-flex justify-content-center">
+        <img [src]="imageBase64 ? imageBase64 : '/../../../assets/images/defultPost.jpeg'" alt="">
+    </div>
+    <div class="file-upload text-center">
+        <input type="file" id="file-input" (change)="onFileChange($event)" />
+        <label for="file-input">
+            <span>+</span>
+        </label>
+    </div>
+
+    <div *ngIf="imageChangedEvent" class="position-relative m-4">
+        <image-cropper *ngIf="!cropperClosed" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" [roundCropper]="false"
+            (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"></image-cropper>
+        <div *ngIf="!cropperClosed" class="file-upload1 text-center">
+            <label for="file-input" (click)="closeCropper($event)">
+                <span><i class="fa fa-check" aria-hidden="true"></i></span>
+            </label>
+        </div>
+        <div *ngIf="!cropperClosed" class="file-upload2 text-center">
+            <label for="file-input" (click)="resetCropper($event)">
+                <span><i class='fa fa-close'></i></span>
+            </label>
+        </div>
+    </div>
+</div>
 
   <mat-form-field [style.width]="'100%'" appearance="outline" class="mt-3">
       <mat-label>{{ "DESCRIPTION" | translate }}</mat-label>

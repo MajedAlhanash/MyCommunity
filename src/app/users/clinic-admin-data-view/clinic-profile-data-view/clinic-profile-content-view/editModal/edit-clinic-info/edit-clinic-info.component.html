@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-center mt-4">
+    <h2 class="main-header user-card-name">Edit Clinic Profile</h2>
+</div>
+
+<div class="row p-0 m-4 d-flex justify-content-center position-relative">
+    <div class="image-container d-flex justify-content-center">
+        <img [src]="imageBase64 ? imageBase64 : '/../../../assets/images/defultPost.jpeg'" alt="">
+    </div>
+    <div class="file-upload text-center">
+        <input type="file" id="file-input" (change)="onFileChange($event)" />
+        <label for="file-input">
+            <span>+</span>
+        </label>
+    </div>
+
+    <div *ngIf="imageChangedEvent" class="position-relative">
+        <image-cropper *ngIf="!cropperClosed" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" [roundCropper]="false"
+            (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"></image-cropper>
+        <div *ngIf="!cropperClosed" class="file-upload1 text-center">
+            <label for="file-input" (click)="closeCropper($event)">
+                <span><i class="fa fa-check" aria-hidden="true"></i></span>
+            </label>
+        </div>
+        <div *ngIf="!cropperClosed" class="file-upload3 text-center">
+            <label for="file-input" (click)="resetCropper($event)">
+                <span><i class='fa fa-close'></i></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<form (submit)="$event.preventDefault()" [formGroup]="generalForm">
+    <div class="d-flex justify-content-between">
+        <mat-form-field class="title-input" appearance="fill">
+            <mat-label>Clinic Style</mat-label>
+            <input matInput formControlName="title" [value]="generalForm.controls.title.value">
+        </mat-form-field>
+        <mat-form-field class="title-input" appearance="fill">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phone" [value]="generalForm.controls.phone.value">
+        </mat-form-field>
+        <div class="w-25 position-relative">
+            <img class="img2" [src]="secondImageBase64? secondImageBase64 : clinicData.iconPath">
+            <div class="file-upload2 absolute">
+                <input type="file" id="file-input" (change)="onFileChange2($event)" />
+                <label for="file-input">
+                    <span>+</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <mat-form-field class="description-textArea" appearance="fill">
+        <mat-label>Edit Description</mat-label>
+        <textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="6" cdkAutosizeMaxRows="20"></textarea>
+    </mat-form-field>
+    <div class="d-flex justify-content-around">
+        <button class="add-btn w-25" (click)="editClinicInfo()">Edit</button>
+        <button class="cancle-btn w-25" (click)="closeDialog()">cancle</button>
+    </div>
+</form>

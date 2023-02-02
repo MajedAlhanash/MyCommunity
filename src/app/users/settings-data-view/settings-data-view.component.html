@@ -5,90 +5,68 @@
         <strong>{{ "Social Accounts" | translate }}</strong>
       </h2>
     </div>
-    <div
-      class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
-      style="padding-inline-start: 0; padding-right: 10px"
-    >
+    <div class="col-md-1 col-sm-12 d-flex align-items-center justify-content-center"
+      style="padding-inline-start: 0; padding-right: 10px">
       <button (click)="openSocial('Add')" class="add-btn">
         <mat-icon [style.fontSize]="'25px'">add</mat-icon>
       </button>
     </div>
   </div>
   <div class="">
-    <p-dataView
-      #dv
-      [value]="socialAccount"
-      [paginator]="true"
-      layout="grid"
-      filterBy="name"
-      [rows]="10"
-      class="p-0 m-0"
-    >
+    <p-dataView #dv [value]="socialAccount" [paginator]="true" layout="grid" filterBy="name" [rows]="10"
+      class="p-0 m-0">
       <ng-template let-social pTemplate="gridItem">
         <div class="">
-            <div class="my-card">
-              <div class="row">
-                <div class="col-10">
-                  <div class="p-3">
-                    <img
-                      class="card-profile-img add-shadow"
-                      [src]="social.iconPath ? social?.iconPath : defultImg"
-                    />
-                  </div>
-                </div>
-                <div class="col-1 dotBtn" style="padding-inline: 0p">
-                  <button
-                    style="float: right"
-                    [matMenuTriggerFor]="menu"
-                    (click)="setSelectedAccount(social)"
-                    #dostButton
-                    pButton
-                    pRipple
-                    type="button"
-                    icon="pi pi-ellipsis-h"
-                    class="p-button-rounded p-button-text p-button-plain"
-                  ></button>
+          <div class="my-card">
+            <div class="row">
+              <div class="col-10">
+                <div class="p-3">
+                  <img class="card-profile-img add-shadow" [src]="social.iconPath ? social.iconPath : defultImg" />
                 </div>
               </div>
-  
-              <div class="row mb-2">
-                <div class="col-12">
-                  <span class="user-card-name px-3"
-                    >{{ social.accountPlatform }}
-                  </span>
+              <div class="col-1 dotBtn" style="padding-inline: 0p">
+                <button style="float: right" [matMenuTriggerFor]="menu" (click)="setSelectedAccount(social)" #dostButton
+                  pButton pRipple type="button" icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"></button>
+              </div>
+            </div>
+
+            <div class="row mb-2">
+              <div class="col-12">
+                <span class="user-card-name px-3">{{ social.accountPlatform }}
+                </span>
+              </div>
+              <div class="col-12 d-flex" style="padding-inline-start: 30px">
+                <div class="col-1">
+                  <i class="pi pi-globe" style="font-size: 16px"></i>
                 </div>
-                <div class="col-12 d-flex" style="padding-inline-start: 30px">
-                  <div class="col-1">
-                    <i class="pi pi-globe" style="font-size: 16px"></i>
-                  </div>
-                  <div class="col-11">
-                    <span>{{ social.accountLink }}</span>
-                  </div>
+                <div class="col-11">
+                  <span>{{ social.accountLink }}</span>
                 </div>
-                <div class="col-12 d-flex" style="padding-inline-start: 30px">
-                  <div class="col-1">
-                    <i class="pi pi-clock" style="font-size: 16px"></i>
-                  </div>
-                  <div class="col-11">
-                    <span class="wrap-words">{{ social.creationTime  | date: 'short'}}</span>
-                  </div>
+              </div>
+              <div class="col-12 d-flex" style="padding-inline-start: 30px">
+                <div class="col-1">
+                  <i class="pi pi-clock" style="font-size: 16px"></i>
+                </div>
+                <div class="col-11">
+                  <span class="wrap-words">{{ social.creationTime | date: 'short'}}</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
       </ng-template>
     </p-dataView>
   </div>
 </div>
 
 <mat-menu #menu="matMenu">
-    <button (click)="openSocial('Edit')" mat-menu-item>
-      <mat-icon>edit</mat-icon>
-      <span>{{ "EDIT" | translate }}</span>
-    </button>
-    <button (click)="deleteSocial()" mat-menu-item style="color: red">
-      <mat-icon [style.color]="'red'">delete</mat-icon>
-      <span>{{ "DELETE" | translate }}</span>
-    </button>
-  </mat-menu>
-  
+  <button (click)="openSocial('Edit')" mat-menu-item>
+    <mat-icon>edit</mat-icon>
+    <span>{{ "EDIT" | translate }}</span>
+  </button>
+  <button (click)="deleteSocial()" mat-menu-item style="color: red">
+    <mat-icon [style.color]="'red'">delete</mat-icon>
+    <span>{{ "DELETE" | translate }}</span>
+  </button>
+</mat-menu>

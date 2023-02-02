@@ -29,72 +29,93 @@ export class SettingsDataViewComponent implements OnInit {
     this.getSocialAccount()
   }
 
-  getSocialAccount(){
+  getSocialAccount() {
     this.loading.showLoading();
-    this.settingsSer.getSocailAccount().subscribe(res =>{
+    this.settingsSer.getSocailAccount().subscribe(res => {
       this.socialAccount = res.value;
+      console.log(this.socialAccount)
+      console.log(this.selectedAccount)
       this.loading.hideLoading()
     })
   }
-  
-  setSelectedAccount(account:any){
+
+  setSelectedAccount(account: any) {
     this.selectedAccount = account
   }
 
-  openSocial(status:string){
+  openSocial(status: string) {
     this.dialogSer
-    .open(SocialModalComponent, {
-      data: {
-        status: status,
-        selectedAccount: this.selectedAccount
-      },
-      header:
-        status === 'Add'
-          ? this.translate.instant('ADD_SOCIAL_ACCOUNT')
-          : this.translate.instant('EDIT_SOCIAL_ACCOUNT'),
-      autoZIndex: true,
-      width: '500px',
-    })
-    .onClose.subscribe((result) => {
-      if (!result) {
-        return;
-      }
-      if (status === 'Add') {
-        this.addNewSocial(result);
-      } else {
-        this.editSocial(result);
-      }
-    });
+      .open(SocialModalComponent, {
+        data: {
+          status: status,
+          selectedAccount: this.selectedAccount
+        },
+        header:
+          status === 'Add'
+            ? this.translate.instant('ADD_SOCIAL_ACCOUNT')
+            : this.translate.instant('EDIT_SOCIAL_ACCOUNT'),
+        autoZIndex: true,
+        width: '500px',
+      })
+      .onClose.subscribe((result) => {
+        if (!result) {
+          return;
+        }
+        if (status === 'Add') {
+          this.addNewSocial(result);
+        } else {
+          this.editSocial(result, this.selectedAccount);
+        }
+      });
   }
 
-  addNewSocial(account:any){
+  addNewSocial(account: any) {
+    console.log(account)
     this.loading.showLoading()
-    this.settingsSer.addNewSocialAccount(account).subscribe({
+    let formData = new FormData();
+    formData.append('Icon', account.image);
+    formData.append('AccountPlatform', account.accountPlatform);
+    formData.append('AccountLink', account.accountLink);
+    formData.append('Type', account.type);
+    this.settingsSer.addNewSocialAccount(formData).subscribe({
       next: (res) => {
-          this.getSocialAccount()
-          this.msgSer.add({severity:'success', summary:'Add Socail Account', detail:'Added Successfully '});
+        console.log(res)
+        this.getSocialAccount()
+        this.msgSer.add({ severity: 'success', summary: 'Add Socail Account', detail: 'Added Successfully ' });
       },
-      error:()=>{
+      error: () => {
         this.loading.hideLoading()
       }
     })
   }
 
-  editSocial(account:any){
+  editSocial(account: any, selectedAccount: any) {
+    console.log(selectedAccount)
     this.loading.showLoading()
-    this.settingsSer.updateSocialAccount(account).subscribe(res=>{
+    let formData = new FormData();
+    formData.append('Icon', account.image);
+    formData.append('AccountPlatform', account.accountPlatform);
+    formData.append('AccountLink', account.accountLink);
+    formData.append('Type', account.type);
+    formData.append('Id', selectedAccount.id);
+    this.settingsSer.updateSocialAccount(formData).subscribe(res => {
       this.getSocialAccount()
-      this.msgSer.add({severity:'success', summary:'Edit Socail Account', detail:'Edit Successfully '});
+      this.msgSer.add({ severity: 'success', summary: 'Edit Socail Account', detail: 'Edit Successfully ' });
     })
   }
 
 
-  deleteSocial(){
+  deleteSocial() {
     this.loading.showLoading();
-    this.settingsSer.deleteSocialAccount(this.selectedAccount.id).subscribe(res=>{
-      this.getSocialAccount();
-      this.msgSer.add({severity:'success', summary:'Delete Socail Account', detail:'Deleted Successfully '});
+    this.settingsSer.deleteSocialAccount(this.selectedAccount.id).subscribe({
+      next: (res) => {
+        console.log(res)
+        this.getSocialAccount();
+        this.msgSer.add({ severity: 'success', summary: 'Delete Socail Account', detail: 'Deleted Successfully ' });
+      },
+      error: () => {
+        this.loading.hideLoading()
+      }
     })
   }
-
 }

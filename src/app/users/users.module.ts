@@ -42,6 +42,14 @@ import { PendingModalComponent } from './clinic-admin-data-view/clinic-profile-d
 import { ConfirmedModalComponent } from './clinic-admin-data-view/clinic-profile-data-view/booking-data-view/confirmed-data-view/confirmed-modal/confirmed-modal.component';
 import { SettingsDataViewComponent } from './settings-data-view/settings-data-view.component';
 import { SocialModalComponent } from './settings-data-view/social-modal/social-modal.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { EditClinicInfoComponent } from './clinic-admin-data-view/clinic-profile-data-view/clinic-profile-content-view/editModal/edit-clinic-info/edit-clinic-info.component';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmComponent } from './confirm/confirm.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     UserDataViewComponent,
@@ -74,11 +82,18 @@ import { SocialModalComponent } from './settings-data-view/social-modal/social-m
     ConfirmedModalComponent,
     SettingsDataViewComponent,
     SocialModalComponent,
+    EditClinicInfoComponent,
+    ConfirmComponent,
   ],
   imports: [
     CommonModule,
+    GoogleMapsModule,
+    GooglePlaceModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
     UsersRoutingModule,
     SharedModule,
+    ImageCropperModule,
     MaterialModule,
     PrimengModule,
     TranslateModule,
@@ -86,6 +101,10 @@ import { SocialModalComponent } from './settings-data-view/social-modal/social-m
     ReactiveFormsModule,
     NgxDropzoneModule,
     GalleryModule
+  ],
+  providers: [
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} }
   ]
 })
 export class UsersModule { }

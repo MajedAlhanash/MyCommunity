@@ -28,11 +28,12 @@
               appearance="outline"
             >
               <mat-label>{{ "SEARCH" | translate }}</mat-label>
-              <input matInput />
+              <input matInput #input/>
               <mat-icon
                 [style.color]="'#5449bf'"
                 [style.cursor]="'pointer'"
                 matPrefix
+                (click)="searchRoleByName(input.value)"
                 >search</mat-icon
               >
             </mat-form-field>
@@ -52,18 +53,18 @@
       <ng-template pTemplate="header">
         <tr>
         <th>{{'NAME'| translate}}</th>
-          <th>{{'ROLE'| translate}}</th>
+          <th>{{'Permissions'| translate}}</th>
           <th [width]="'150px'"></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-role>
         <tr>
-          <td>{{ role.name }}</td>
-          <td>{{ role.role }}</td>
+          <td>{{ role.displayName }}</td>
+          <td><span *ngFor="let per of role.permissions">{{ per.displayName }}, </span></td>
           <td>
             <div class="d-flex justify-content-around ">
               <i class="pi pi-pencil text-success" pTooltip="Edit" [tooltipPosition]="'top'" (click)="openRoleModal('Edit' , role)"></i>
-              <i class="pi pi-trash text-danger " pTooltip="Delete" [tooltipPosition]="'top'" (click)="deleteRole()"></i>
+              <i class="pi pi-trash text-danger " pTooltip="Delete" [tooltipPosition]="'top'" (click)="deleteRole(role)"></i>
             </div>
           </td>
 

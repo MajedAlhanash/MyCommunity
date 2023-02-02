@@ -41,7 +41,7 @@
 /**/
 :host ::ng-deep .p-dataview .p-dataview-content > .p-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
   gap: 10px;
 }
 

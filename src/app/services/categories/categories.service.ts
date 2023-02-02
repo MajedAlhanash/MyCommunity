@@ -14,7 +14,7 @@ export class CategoriesService {
 
 
   public getAllCategories(search:string=''): Observable<CategoriesResponse> {
-    return this.httpClient.get<CategoriesResponse>(this.apiBaseUrl + '/categories/categories',{
+    return this.httpClient.get<CategoriesResponse>(this.apiBaseUrl + 'categories/categories',{
       params:{
         Search: search
       }});

@@ -7,7 +7,7 @@
   <mat-form-field appearance="outline" [style.width]="'100%'">
     <mat-label>{{ "RECEIVERS" | translate }}</mat-label>
     <mat-select
-      [multiple]="true"
+      [multiple]="false"
       formControlName="receiver"
       (ngModelChange)="onSelectReceiver($event)"
     >
@@ -29,7 +29,7 @@
           />
 
           <mat-option *ngFor="let rec of customUsers" [value]="rec.id">{{
-            rec.name | translate
+            rec.firstName | translate
           }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -44,8 +44,7 @@
               placeholder="Search Clinics"
               (keyup)="onClinicKey($event.target)"
             />
-  
-            <mat-option *ngFor="let rec of customUsers" [value]="rec.id">{{
+            <mat-option *ngFor="let rec of customClinics" [value]="rec.id">{{
               rec.name | translate
             }}</mat-option>
           </mat-select>

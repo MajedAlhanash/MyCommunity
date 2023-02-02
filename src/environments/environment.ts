@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  apiEndpoint: "http://laolao-001-site1.ftempurl.com/app/api",
+  apiEndpoint: "http://laolao-001-site1.ftempurl.com/app/api/",
   production: false
 };
 

@@ -15,8 +15,8 @@ import { StoryModalComponent } from './story-modal/story-modal.component';
 export class StoriesDataViewComponent implements OnInit {
 
   public clinicId!: number;
-  public  stories= [];
-  public selectedStory:any
+  public stories = [];
+  public selectedStory: any
 
   constructor(
     public translate: TranslateService,
@@ -28,56 +28,72 @@ export class StoriesDataViewComponent implements OnInit {
     private msgSer: MessageService
   ) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.route?.parent?.params.subscribe(res => {
-      this.clinicId = res['id'];      
+      this.clinicId = res['id'];
       this.getClinicStories(this.clinicId);
     })
   }
 
 
-  getClinicStories(clinicId:number){
+  getClinicStories(clinicId: number) {
     this.loading.showLoading()
-    this.clinicServ.getClinicStroies(clinicId).subscribe(res =>{
+    this.clinicServ.getClinicStroies(clinicId).subscribe(res => {
       this.stories = res.value;
+      this.stories.sort((a: any, b: any) => a.creationTime - b.creationTime);
+      console.log(this.stories)
       this.loading.hideLoading()
     })
   }
 
   //-----------------------------------------
-  setSelectedStory(story: any){
+  setSelectedStory(story: any) {
     this.selectedStory = story
   }
 
-  addNewStory(){
+  addNewStory() {
     this.dialogSer
-    .open(StoryModalComponent, {
-      autoZIndex: true,
-      width: '400px',
-      showHeader:false
-    })
-    .onClose.subscribe((result) => {
-      if (!result) {
-        return
-      }
-      
-    })
+      .open(StoryModalComponent, {
+        autoZIndex: true,
+        width: '500px',
+        showHeader: false
+      })
+      .onClose.subscribe((result) => {
+        console.log(result)
+        if (!result) {
+          return
+        }
+        var formData = new FormData()
+        formData.append('ClinicId', this.clinicId.toString());
+        formData.append('Text', result.text);
+        formData.append('Image', result.image)
+        this.clinicServ.createStory(formData).subscribe(res => {
+          this.getClinicStories(this.clinicId)
+          this.loading.hideLoading();
+        })
+      })
   }
 
 
-  deleteStory(){
+  deleteStory() {
     this.loading.showLoading();
     this.clinicServ.deleteStory(this.selectedStory.id).subscribe({
-      next: (res) =>{
+      next: (res) => {
         this.getClinicStories(this.clinicId)
         this.loading.hideLoading();
-        this.msgSer.add({severity:'success', summary:'Delete Story', detail:'Deleted Successfully '});
+        this.msgSer.add({ severity: 'success', summary: 'Delete Story', detail: 'Deleted Successfully ' });
       },
-      error: ()=>{
+      error: () => {
         this.loading.hideLoading();
-        this.msgSer.add({severity:'error', summary:'Delete Story', detail:'Deleted Failed '});
+        this.msgSer.add({ severity: 'error', summary: 'Delete Story', detail: 'Deleted Failed ' });
       }
     })
   }
 
+  search(text: any) {
+    console.log(text)
+    this.stories = this.stories.filter((item: any) => {
+      return (item.text as string).includes(text)
+    })
+  }
 }

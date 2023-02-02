@@ -43,23 +43,13 @@ export class ClinicProfileDataViewComponent implements OnInit {
       },
       {
         label: this.translate.instant('STORIES'),
-        items: [
-          {
-            label: this.translate.instant('ACTIVE_STORIES'), routerLink: ['/clinic-admin', this.id, 'stories'],
-
-          },
-          { label: this.translate.instant('ARCHIVES_STROIES'), routerLink: ['/clinic-admin', this.id, 'archives-stories'],
-        }]
+        routerLink: ['/clinic-admin', this.id, 'stories'],
+        command: (click) => { this.router.navigate(['clinic-admin', this.id, 'stories']); }
       },
       {
         label: this.translate.instant('BOOKINGS'),
-        items: [
-          {
-            label: this.translate.instant('PENDING'), routerLink: ['/clinic-admin', this.id, 'pending'],
-
-          },
-          { label: this.translate.instant('CONFIRMED'), routerLink: ['/clinic-admin', this.id, 'confirmed'],
-        }]
+        routerLink: ['/clinic-admin', this.id, 'pending'],
+        command: (click) => { this.router.navigate(['clinic-admin', this.id, 'pending']); }
       },
 
     ]

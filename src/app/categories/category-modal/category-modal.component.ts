@@ -55,7 +55,7 @@ export class CategoryModalComponent implements OnInit {
 
   getAllCLinics(){
     this.loading.showLoading()
-    this.sub = this.clinicService.getAllCLinics(1 , 100).subscribe(res=>{
+    this.sub = this.clinicService.getAllCLinics().subscribe(res=>{
         this.clinicList = res.value;
         this.clinicSearchList = res.value;
         this.loading.hideLoading()

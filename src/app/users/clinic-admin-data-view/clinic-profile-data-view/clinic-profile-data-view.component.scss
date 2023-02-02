@@ -3,14 +3,14 @@
 }
 .clinic-profile {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 5fr;
   gap: 20px;
 }
 
 .clinic-sidebar {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 2fr;
+  grid-template-rows: 1fr;
   gap: 10px 14px;
 }
 
@@ -30,4 +30,8 @@
 :host ::ng-deep .p-panelmenu .p-panelmenu-panel .p-panelmenu-header > a:focus{
   color: steelblue !important;
   font-weight: 600;
+}
+
+.my-card {
+  height: 345px !important;
 }

@@ -19,6 +19,34 @@
   </div>
 </p-header>
 <form [formGroup]="insuranceForm" class="row m-0 p-0">
+  <div class="row p-0 m-0 d-flex justify-content-center position-relative">
+    <div class="image-container d-flex justify-content-center">
+      <img [src]="imageBase64 ? imageBase64 : '/../../../assets/images/defultPost.jpeg'" alt="">
+    </div>
+    <div class="file-upload text-center">
+      <input type="file" id="file-input" (change)="onFileChange($event)" />
+      <label for="file-input">
+        <span>+</span>
+      </label>
+    </div>
+
+    <div *ngIf="imageChangedEvent" class="position-relative">
+      <image-cropper *ngIf="!cropperClosed" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" [roundCropper]="true"
+        (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+        (loadImageFailed)="loadImageFailed()"></image-cropper>
+      <div *ngIf="!cropperClosed" class="file-upload1 text-center">
+        <label for="file-input" (click)="closeCropper($event)">
+          <span><i class="fa fa-check" aria-hidden="true"></i></span>
+        </label>
+      </div>
+      <div *ngIf="!cropperClosed" class="file-upload2 text-center">
+        <label for="file-input" (click)="resetCropper($event)">
+          <span><i class='fa fa-close'></i></span>
+        </label>
+      </div>
+    </div>
+  </div>
   <mat-form-field [style.width]="'100%'" appearance="outline">
     <mat-label>{{ "INSURANCE_NAME" | translate }}</mat-label>
     <input matInput autocomplete="nope" formControlName="name" />

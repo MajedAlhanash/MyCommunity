@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 @Component({
@@ -50,13 +51,73 @@ export class BeforAndAfterModalComponent implements OnInit {
     this._dialogRef.close(null)
   }
 
-  onSelect(event: any) {    
-    this.files.push(...event.addedFiles);
-    this.beforAndAfterForm.get('image')?.setValue(this.files[0])
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  imageBase64: any
+  file: any
+  onFileChange(event: any) {
+    this.imageChangedEvent = event;
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      this.file = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        // convert image to base64 format
+        this.imageBase64 = reader.result as string;
+      };
+    }
   }
 
-  onRemove(event: any) {
-    console.log(event);
-    this.files.splice(this.files.indexOf(event), 1);
+  dataURLtoFile(dataurl: any, filename: any) {
+
+    var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+  }
+
+  finalFile: any;
+  imageCropped(event: ImageCroppedEvent) {
+    this.imageBase64 = event.base64;
+    let file = this.dataURLtoFile(this.imageBase64, 'photo.png');
+    this.beforAndAfterForm.get('image')?.setValue(file);
+  }
+
+  imageLoaded() {
+    // show cropper
+  }
+
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
+
+  cropperClosed = false;
+  closeCropper(event: any) {
+    event.preventDefault();
+    this.cropperClosed = true;
+  }
+
+  resetCropper(event: any) {
+    event.preventDefault();
+    console.log(this.file[0])
+    this.beforAndAfterForm.get('image')?.setValue(this.file[0]);
+    const reader = new FileReader();
+    reader.readAsDataURL(this.file[0]);
+    reader.onload = () => {
+      // convert image to base64 format
+      this.imageBase64 = reader.result as string;
+      this.cropperClosed = true;
+    };
   }
 }

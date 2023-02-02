@@ -2,7 +2,7 @@
   <div class="row steel m-b-10" style="border-bottom: 2px solid steelblue">
     <div class="col-12" style="padding-inline-start: 8px; padding-bottom: 0">
       <h2>
-        <strong>{{ "USERS" | translate }} ({{users.length}})</strong>
+        <strong>{{ "USERS" | translate }} ({{filteredUser? filteredUser.length : users.length}})</strong>
       </h2>
     </div>
   </div>
@@ -10,49 +10,25 @@
   <form action="post">
     <div class="row">
       <div class="col-md-9 col-sm-12" style="padding-inline-start: 8px">
-        <mat-form-field
-          [style.backGround]="'white'"
-          [style.width]="'100%'"
-          appearance="outline"
-        >
+        <mat-form-field [style.backGround]="'white'" [style.width]="'100%'" appearance="outline">
           <mat-label>{{ "SEARCH" | translate }}</mat-label>
-          <input matInput />
-          <mat-icon
-            [style.color]="'#5449bf'"
-            [style.cursor]="'pointer'"
-            (click)="test()"
-            matPrefix
-            >search</mat-icon
-          >
+          <input matInput #inputSearch />
+          <mat-icon [style.color]="'#5449bf'" [style.cursor]="'pointer'" (click)="test(inputSearch.value)"
+            matPrefix>search</mat-icon>
         </mat-form-field>
       </div>
 
-      <div
-        class="col-md-3 col-sm-12 d-flex align-items-center"
-        style="padding-inline-start: 0; padding-right: 10px"
-      >
-        <mat-form-field
-          [style.width]="'100%'"
-          [style.padding-right]="'10px'"
-          appearance="outline"
-        >
+      <div class="col-md-3 col-sm-12 d-flex align-items-center" style="padding-inline-start: 0; padding-right: 10px">
+        <mat-form-field [style.width]="'100%'" [style.padding-right]="'10px'" appearance="outline">
           <mat-label>{{ "SORT" | translate }}</mat-label>
-          <mat-select
-            [style.width]="'100%'"
-            disableOptionCentering
-            panelClass="myPanelClass"
-          >
+          <mat-select [style.width]="'100%'" disableOptionCentering panelClass="myPanelClass"
+            (valueChange)="selectedValueChanged($event)">
             <mat-option *ngFor="let option of sortValue" [value]="option.val">{{
               option.name
-            }}</mat-option>
+              }}</mat-option>
           </mat-select>
-          <mat-icon
-            [style.color]="'#5449bf'"
-            [style.cursor]="'pointer'"
-            (click)="test()"
-            matPrefix
-            >sort</mat-icon
-          >
+          <mat-icon [style.color]="'#5449bf'" [style.cursor]="'pointer'" (click)="testSearch()"
+            matPrefix>sort</mat-icon>
         </mat-form-field>
         <button (click)="openUserModal('Add')" class="add-btn">
           <mat-icon [style.fontSize]="'25px'">add</mat-icon>
@@ -62,56 +38,31 @@
   </form>
 
   <div class="">
-    <p-dataView
-      #dv
-      [value]="users"
-      [paginator]="true"
-      layout="grid"
-      filterBy="name"
-      [rows]="10"
-      class="p-0 m-0"
-    >
+    <p-dataView #dv [value]="filteredUser? filteredUser : users" [paginator]="true" layout="grid" filterBy="name"
+      [rows]="10" class="p-0 m-0">
       <ng-template let-user pTemplate="gridItem">
-        <div class="">
-          <div class="my-card">
+        <div class="p-grid">
+          <div class="my-card" style="width: 200px;">
             <div class="row">
               <div class="col-10" (click)="showUser(user)">
                 <div class="p-3">
-                  <img
-                    class="card-profile-img add-shadow"
-                    [src]="user.imageUrl ? user?.imageUrl : defultImg"
-                  />
+                  <img class="card-profile-img add-shadow" [src]="user.imagePath ?user.imagePath : defultImg " />
                 </div>
               </div>
               <div class="col-1 dotBtn" style="padding-inline: 0p">
-                <button
-                  style="float: right"
-                  (click)="setSelectedUser(user)"
-                  [matMenuTriggerFor]="menu"
-                  #dostButton]
-                  
-                  pButton
-                  pRipple
-                  type="button"
-                  icon="pi pi-ellipsis-h"
-                  class="p-button-rounded p-button-text p-button-plain"
-                ></button>
+                <button style="float: right" (click)="setSelectedUser(user)" [matMenuTriggerFor]="menu" #dostButton]
+                  pButton pRipple type="button" icon="pi pi-ellipsis-h"
+                  class="p-button-rounded p-button-text p-button-plain"></button>
               </div>
             </div>
 
-            <div class="row mb-2" (click)="showUser(user)">
+            <div class="mb-2" (click)="showUser(user)">
               <div class="col-12">
-                <span class="user-card-name px-3"
-                  >{{ user.name }}
-                  <i
-                    [pTooltip]="user?.active ? translate.instant('ACTIVE') : translate.instant('DEACTIVE')"
-                    tooltipPosition="top"
-                    [class]="
-                      user?.active
-                        ? 'pi pi-check-circle text-success'
-                        : 'pi pi-times-circle text-danger'
-                    "
-                  ></i>
+                <span class="user-card-name px-3">{{ user.firstName }}
+                  <i [pTooltip]="user?.isActive ? translate.instant('ACTIVE') : translate.instant('DEACTIVE')"
+                    tooltipPosition="top" [class]="
+                        user?.isActive ? 'pi pi-check-circle text-success': 'pi pi-times-circle text-danger'">
+                  </i>
                 </span>
               </div>
               <div class="col-12 d-flex" style="padding-inline-start: 30px">
@@ -119,10 +70,10 @@
                   <i class="pi pi-phone" style="font-size: 12px"></i>
                 </div>
                 <div class="col-11">
-                  <span>{{ user.phone }}</span>
+                  <span>{{ user.phoneNumber }}</span>
                 </div>
               </div>
-              <div class="col-12 d-flex" style="padding-inline-start: 30px">
+              <div class="col-12 d-flex " style="padding-inline-start: 30px; overflow: hidden;">
                 <div class="col-1">
                   <i class="fa fa-light fa-envelope"></i>
                 </div>
@@ -132,34 +83,34 @@
               </div>
               <div class="col-12 d-flex" style="padding-inline-start: 30px">
                 <div class="col-1">
-                  <i *ngIf="user.gender === 'male'" class="fa fa-mars"></i>
-                  <i *ngIf="user.gender === 'female'" class="fa fa-venus"></i>
+                  <i *ngIf="user.gender === 0" class="fa fa-mars"></i>
+                  <i *ngIf="user.gender === 1" class="fa fa-venus"></i>
                 </div>
                 <div class="col-11">
                   <span>
-                    {{ user.gender }}
+                    {{ user.gender === 0 ? 'male' :'female' }}
                   </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        <mat-menu #menu="matMenu">
+          <button (click)="openUserModal('Edit')" mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>{{ "EDIT" | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="openResetPasswordModal(user)">
+            <mat-icon>settings_backup_restore</mat-icon>
+            <span>{{ "RESET_PASSWORD" | translate }}</span>
+          </button>
+          <button (click)="deleteUser(user)" mat-menu-item style="color: red">
+            <mat-icon [style.color]="'red'">delete</mat-icon>
+            <span>{{ "DELETE" | translate }}</span>
+          </button>
+        </mat-menu>
       </ng-template>
     </p-dataView>
   </div>
 </div>
-
-<mat-menu #menu="matMenu">
-  <button (click)="openUserModal('Edit')" mat-menu-item>
-    <mat-icon>edit</mat-icon>
-    <span>{{ "EDIT" | translate }}</span>
-  </button>
-  <button mat-menu-item (click)="openResetPasswordModal()">
-    <mat-icon>settings_backup_restore</mat-icon>
-    <span>{{ "RESET_PASSWORD" | translate }}</span>
-  </button>
-  <button (click)="deleteUser()" mat-menu-item style="color: red">
-    <mat-icon [style.color]="'red'">delete</mat-icon>
-    <span>{{ "DELETE" | translate }}</span>
-  </button>
-</mat-menu>
