@@ -2,7 +2,7 @@
   <div class="row steel m-b-10" style="border-bottom: 2px solid steelblue">
     <div class="col-12" style="padding-inline-start: 8px; padding-bottom: 0">
       <h2>
-        <strong>{{ "CATEGORY_NAME" | translate }} ({{category.length}})</strong>
+        <strong>{{category.name}} ({{clinics.length}})</strong>
       </h2>
     </div>
   </div>
@@ -41,14 +41,14 @@
   <div class="">
     <p-dataView
       #dv
-      [value]="category"
+      [value]="clinics"
       [paginator]="true"
       layout="grid"
       filterBy="name"
       [rows]="8"
       class="p-0 m-0"
     >
-      <ng-template let-category pTemplate="gridItem">
+      <ng-template let-clinic pTemplate="gridItem">
         <div class="">
           <div class="my-card">
             <div class="row">
@@ -56,7 +56,7 @@
                 <div class="dotBtn" style="padding-inline: 0p">
                   <button
                     style="float: inline-start"
-                    (click)="setSelectedCategory(category)"
+                    (click)="setSelectedClinic(clinic)"
                     [matMenuTriggerFor]="menu"
                     #dostButton
                     pButton
@@ -73,13 +73,13 @@
                 <div class="p-3">
                   <img
                     class="card-category-img add-shadow"
-                    [src]="category.imageUrl ? category?.imageUrl : defultImg"
+                    [src]="clinic.clinicIcon ? clinic?.clinicIcon : defultImg"
                   />
                 </div>
               </div>
               <div class="col-12">
                 <span class="category-card-name px-3"
-                  >{{ category.name }}
+                  >{{ clinic.clinicName }}
                 </span>
               </div>
             </div>
@@ -91,11 +91,8 @@
 </div>
 
 <mat-menu #menu="matMenu">
-  <button (click)="openCategoryModal('Edit')" mat-menu-item>
-    <mat-icon>edit</mat-icon>
-    <span>{{ "EDIT" | translate }}</span>
-  </button>
-  <button (click)="deleteCategory()" mat-menu-item style="color: red">
+  
+  <button (click)="removeClinic()" mat-menu-item style="color: red">
     <mat-icon [style.color]="'red'">delete</mat-icon>
     <span>{{ "DELETE" | translate }}</span>
   </button>

@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { NewCategoryModal } from 'src/app/model/categories/categories.modal';
+import { NewCategoryModal, EditCategoryModal } from 'src/app/model/categories/categories.modal';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { LoadingService } from 'src/app/services/loading/loading.service';
+import { ConfirmationDialog } from 'src/app/shared/component/confirmation-dialog/confirmation-dialog.component';
 import { CategoryModalComponent } from '../category-modal/category-modal.component';
 
 @Component({
@@ -30,8 +32,10 @@ export class CategoriesDataViewComponent implements OnInit, OnDestroy {
     private dialogSer: DialogService,
     private router: Router,
     private messageService: MessageService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private dialog: MatDialog
   ) { }
+  
   ngOnDestroy(): void {
     this.sub.unsubscribe()    
   }
@@ -72,24 +76,59 @@ export class CategoriesDataViewComponent implements OnInit, OnDestroy {
         if (status === 'Add') {
           this.addNewCategory(result)
         } else {
-          this.editCategory();
+          this.editCategory(result);
         }
       })
   }
 
   private addNewCategory(newCategory:NewCategoryModal) { 
     this.loading.showLoading()
-    this.categoriesService.addNewCategory(newCategory).subscribe(res =>{
-      console.log(res);
-      this.loading.hideLoading()
-      this.messageService.add({
-        severity: 'success',
-        summary: this.translate.instant('CATEGORIES'),
-        detail: this.translate.instant('ADDED_SUCCESSFULL'),
-      })
+    this.categoriesService.addNewCategory(newCategory).subscribe(
+      {
+        next: data => {
+          this.loading.hideLoading()
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('CATEGORIES'),
+            detail: this.translate.instant('ADDED_SUCCESSFULL'),
+          })
+        },
+        error: error => {
+          this.loading.hideLoading()
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('CATEGORIES'),
+            detail: this.translate.instant(error.message),
+          })
+          console.log(error.message);
+        }
+      
     })
   }
-  private editCategory() { }
+  private editCategory(editCategory:EditCategoryModal) {
+    editCategory.Id = this.selectedCategory.id; 
+    this.loading.showLoading()
+    this.categoriesService.editNewCategory(editCategory).subscribe({
+      next: data => {
+        this.loading.hideLoading()
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translate.instant('CATEGORIES'),
+          detail: this.translate.instant('EDDITED_SUCCESSFULL'),
+        })
+      },
+      error: error => {
+        this.loading.hideLoading()
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translate.instant('CATEGORIES'),
+          detail: this.translate.instant(error.message),
+        })
+        console.log(error.message);
+      }
+    
+  })
+  }
 
   //selected Category
   setSelectedCategory(category: any) {
@@ -97,10 +136,47 @@ export class CategoriesDataViewComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory() {
-    // let index = this.categories.indexOf(this.selectedCategory);
-    // this.categories.splice(index, 1);
+    const dialogRef = this.dialog.open(ConfirmationDialog,{
+      data:{
+          message: 'Do you want to delete this category?'
+      }
+      });
+       
+      dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+          if (confirmed) {
+              this.deleteCategoryInternal();
+          }
+      });
+    
+
   }
 
+  deleteCategoryInternal()
+  {
+    this.loading.showLoading()
+    this.categoriesService.deleteCategory(this.selectedCategory).subscribe(
+      {
+        next: data => {
+          this.loading.hideLoading()
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translate.instant('CATEGORIES'),
+            detail: this.translate.instant('DELETED_SUCCESSFULL'),
+          })
+          this.removeCategory();
+        },
+        error: error => {
+          this.loading.hideLoading()
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('CATEGORIES'),
+            detail: this.translate.instant(error.message),
+          })
+          console.log(error.message);
+        }
+      
+    })
+  }
   onChangePage(event:any){
     console.log(event);
   }
@@ -108,5 +184,13 @@ export class CategoriesDataViewComponent implements OnInit, OnDestroy {
   // Go to the Category Details 
   goToCategoryDetails(category: any) {
     this.router.navigate(['/categories', category.id])
+  }
+  removeCategory()
+  {
+    let index: number = this.categories.indexOf(this.selectedCategory);
+    if (index !== -1) 
+    {
+      this.categories.splice(index, 1);
+    }
   }
 }

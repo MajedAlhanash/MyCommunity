@@ -1,7 +1,6 @@
 import { Component, OnInit, SecurityContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { ClinicsService } from 'src/app/services/clinics/clinics.service';
@@ -37,20 +36,20 @@ export class CategoryModalComponent implements OnInit {
       Name: ['', Validators.required],
       icon: [''],
       clinics: [],
-      desc: []
     });
   }
 
   ngOnInit(): void {
     if (this.config.data) {
-      this.getAllCLinics()
       this.dialogStatus = this.config.data.status;
       this.selectedCategory = this.config.data.selectedCategory;
       if (this.dialogStatus === 'Edit') {
         this.files.push(this.selectedCategory.iconPath)
         this.categoryForm.get('icon')?.setValue(this.selectedCategory.iconPath)
-        this.categoryForm.get('name')?.setValue(this.selectedCategory.name);
+        this.categoryForm.get('Name')?.setValue(this.selectedCategory.name);
       }
+      else
+        this.getAllCLinics();
     }
   }
 
